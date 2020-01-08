@@ -1346,6 +1346,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/dat.gui@^0.7.5":
+  version "0.7.5"
+  resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/@types/dat.gui/-/dat.gui-0.7.5.tgz#8f4f87300ae553a57b246a7bf1b9fe5e13ca8b79"
+  integrity sha1-j0+HMArlU6V7JGp78bn+XhPKi3k=
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -3299,6 +3304,11 @@ dashdash@^1.12.0:
   integrity sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
   dependencies:
     assert-plus "^1.0.0"
+
+dat.gui@^0.7.6:
+  version "0.7.6"
+  resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/dat.gui/-/dat.gui-0.7.6.tgz#92182a0f2dc96c26910f888238d3839166d82f76"
+  integrity sha1-khgqDy3JbCaRD4iCONODkWbYL3Y=
 
 data-urls@^1.0.0, data-urls@^1.1.0:
   version "1.1.0"
@@ -9616,6 +9626,16 @@ text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
   resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+three-orbitcontrols@^2.110.3:
+  version "2.110.3"
+  resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/three-orbitcontrols/-/three-orbitcontrols-2.110.3.tgz#ca9c91d5ec2f4731a1140acf2ff0281e15988edf"
+  integrity sha1-ypyR1ewvRzGhFArPL/AoHhWYjt8=
+
+three@^0.112.1:
+  version "0.112.1"
+  resolved "https://art-bobcat.autodesk.com:443/artifactory/api/npm/autodesk-npm-virtual/three/-/three-0.112.1.tgz#f8d8f4d0f8e5f753dac6260491b8209457fdc131"
+  integrity sha1-+Nj00Pjl91PaxiYEkbgglFf9wTE=
 
 throat@^4.0.0:
   version "4.1.0"
