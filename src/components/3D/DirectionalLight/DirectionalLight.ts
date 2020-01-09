@@ -4,7 +4,7 @@ import {
   MeshBasicMaterial,
   Mesh
 } from "three";
-import config from "../../config";
+import config from "../../../config";
 import * as dat from "dat.gui";
 
 // for debugging purposes

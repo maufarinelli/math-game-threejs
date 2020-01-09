@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
-import Scene from "./components/Scene/Scene";
+import Scene from "./components/3D/Scene/Scene";
 // import Sphere from "./components/Sphere/Sphere";
 // import Cone from "./components/Cone/Cone";
-import BoxGrid from "./components/Box/BoxGrid";
-import Sidebar from "./components/Sidebar/Sidebar";
-import Plane from "./components/Plane/Plane";
-import Cat from "./components/Cat/Cat";
-import getDirectionalLight from "./components/DirectionalLight/DirectionalLight";
+import BoxGrid from "./components/3D/Box/BoxGrid";
+import Sidebar from "./components/React/Sidebar/Sidebar";
+import Plane from "./components/3D/Plane/Plane";
+import Cat from "./components/3D/Cat/Cat";
+import getDirectionalLight from "./components/3D/DirectionalLight/DirectionalLight";
 
 function App() {
   // const sphere = new Sphere();

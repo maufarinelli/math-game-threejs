@@ -1,5 +1,5 @@
 import { BoxGeometry, MeshPhongMaterial, Mesh } from "three";
-import config from "../../config";
+import config from "../../../config";
 
 const Box = () => {
   const geometry = new BoxGeometry(

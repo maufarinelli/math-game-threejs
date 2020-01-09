@@ -1,0 +1,11 @@
+.challenge-form input {
+  width: 35px;
+  line-height: 25px;
+  margin-bottom: 10px;
+}
+
+.challenge-form button {
+  line-height: 20px;
+  font-size: 14px;
+  border-radius: 5px;
+}

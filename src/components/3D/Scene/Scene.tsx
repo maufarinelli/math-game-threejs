@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Light, Mesh, Group } from "three";
 import useScene from "./useScene";
-import config from "../../config";
+import config from "../../../config";
 
 interface IScene {
   items: Mesh[];

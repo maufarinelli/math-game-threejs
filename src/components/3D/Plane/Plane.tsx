@@ -1,5 +1,5 @@
 import { PlaneGeometry, MeshPhongMaterial, DoubleSide, Mesh } from "three";
-import config from "../../config";
+import config from "../../../config";
 
 const Plane = (): Mesh => {
   const geometry = new PlaneGeometry(

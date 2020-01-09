@@ -1,7 +1,7 @@
 export default {
   SCENE_CONFIG: {
     // Set the scene size.
-    WIDTH: window.innerWidth - 200,
+    WIDTH: window.innerWidth - 300,
     HEIGHT: window.innerHeight,
 
     // Set some camera attributes.

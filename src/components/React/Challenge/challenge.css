@@ -1,0 +1,9 @@
+.challenge {
+  margin-bottom: 10px;
+}
+
+.challenge-number,
+.challenge-math-sign {
+  display: block;
+  font-weight: bold;
+}

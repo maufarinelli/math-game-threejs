@@ -9,13 +9,13 @@ const Cat = (scene: THREE.Scene) => {
   const loader = new threeInstance.OBJLoader();
 
   loader.load("./CatMac.obj", (object: THREE.Mesh) => {
-    object.scale.x = 3;
-    object.scale.y = 3;
-    object.scale.z = 3;
+    object.scale.x = 2;
+    object.scale.y = 2;
+    object.scale.z = 2;
 
-    object.position.z = 2;
+    object.position.z = 7;
     object.position.y = 0;
-    object.position.x = 2;
+    object.position.x = 7;
 
     scene.add(object);
   });
