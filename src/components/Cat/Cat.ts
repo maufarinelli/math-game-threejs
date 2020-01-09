@@ -8,13 +8,14 @@ const Cat = (scene: THREE.Scene) => {
   // @ts-ignore
   const loader = new threeInstance.OBJLoader();
 
-  loader.load("src/CatMac.obj", (object: THREE.Mesh) => {
-    object.scale.x = 20;
-    object.scale.y = 20;
-    object.scale.z = 20;
+  loader.load("./CatMac.obj", (object: THREE.Mesh) => {
+    object.scale.x = 3;
+    object.scale.y = 3;
+    object.scale.z = 3;
 
-    object.position.z = 0;
-    object.position.y = -2;
+    object.position.z = 2;
+    object.position.y = 0;
+    object.position.x = 2;
 
     scene.add(object);
   });
