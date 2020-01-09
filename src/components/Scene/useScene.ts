@@ -85,6 +85,14 @@ const useScene = ({
     });
   };
 
+  const addExternalItemsToScene = (
+    externalItems: Array<(scene: Scene) => void>
+  ) => {
+    externalItems.forEach(externalItem => {
+      externalItem(scene);
+    });
+  };
+
   const addOrbitControls = () => {
     controls = new OrbitControls(camera, renderer.domElement);
   };
@@ -107,6 +115,7 @@ const useScene = ({
     addLightsToScene,
     addItemsToScene,
     addGroupsToScene,
+    addExternalItemsToScene,
     addOrbitControls,
     render,
     update

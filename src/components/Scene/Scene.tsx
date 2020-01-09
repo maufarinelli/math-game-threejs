@@ -7,15 +7,17 @@ interface IScene {
   items: Mesh[];
   groups?: Group[];
   light: Light;
+  externalItems?: Array<(scene: any) => void>;
 }
 
-const Scene: React.FC<IScene> = ({ items, light, groups }) => {
+const Scene: React.FC<IScene> = ({ items, light, groups, externalItems }) => {
   const {
     setAllScene,
     getRenderer,
     addLightsToScene,
     addItemsToScene,
     addGroupsToScene,
+    addExternalItemsToScene,
     addOrbitControls,
     render
   } = useScene(config.SCENE_CONFIG);
@@ -44,6 +46,10 @@ const Scene: React.FC<IScene> = ({ items, light, groups }) => {
 
   if (groups) {
     addGroupsToScene(groups);
+  }
+
+  if (externalItems) {
+    addExternalItemsToScene(externalItems);
   }
 
   addOrbitControls();
