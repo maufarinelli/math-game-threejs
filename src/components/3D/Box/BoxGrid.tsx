@@ -7,8 +7,9 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
 
   for (let i = 0; i < amount; i++) {
     const obj = Box();
-    // const text = Text(String(i));
-    // obj.add(text);
+    const text = Text(String(i));
+    // text.visible =
+    obj.add(text);
 
     obj.position.x = i * separationMultiplier;
     obj.position.y = (obj.geometry as any).parameters.height / 2;
@@ -16,7 +17,7 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
 
     for (let j = 1; j < amount; j++) {
       const obj = Box();
-      const text = Text(String(i));
+      const text = Text(String(j * 10 + i));
       obj.add(text);
       obj.position.x = i * separationMultiplier;
       obj.position.y = (obj.geometry as any).parameters.height / 2;

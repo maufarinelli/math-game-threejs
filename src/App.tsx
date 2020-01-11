@@ -12,7 +12,7 @@ import getDirectionalLight from "./components/3D/DirectionalLight/DirectionalLig
 function App() {
   // const sphere = new Sphere();
   // const cone = new Cone();
-  const boxGrid = BoxGrid(10, 1.5);
+  const boxGrid = BoxGrid(10, -1.5);
   const plane = Plane();
   const light = getDirectionalLight();
   const cat = Cat;

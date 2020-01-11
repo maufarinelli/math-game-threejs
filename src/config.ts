@@ -39,5 +39,11 @@ export default {
     HEIGHT: 0.0001,
     DEPTH: 1,
     COLOR: "rgb(106, 168, 67)"
+  },
+
+  TEXT_CONFIG: {
+    SIZE: 0.3,
+    HEIGHT: 0.05,
+    COLOR: "rgb(106, 168, 67)"
   }
 };

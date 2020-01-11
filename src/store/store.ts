@@ -8,6 +8,9 @@ class ChallengeStore {
   @observable
   public userAnswer: number = 0;
 
+  @observable
+  public showText: boolean = true;
+
   @computed
   public get initialNumber() {
     return Math.floor(Math.random() * 100);
@@ -41,4 +44,11 @@ class ChallengeStore {
       return this.substract(this.initialNumber, this.numberToCalculate);
     }
   }
+
+  @action
+  toggleTextVisibility() {
+    this.showText = !this.showText;
+  }
 }
+
+export const store = new ChallengeStore();
