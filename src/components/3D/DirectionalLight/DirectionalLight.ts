@@ -46,7 +46,7 @@ const getDirectionalLight = () => {
 
   const sphere = getSphere();
   light.add(sphere);
-  addGui(light);
+  // addGui(light);
 
   return light;
 };

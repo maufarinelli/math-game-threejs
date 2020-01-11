@@ -1,17 +1,23 @@
 import { Group } from "three";
 import Box from "./Box";
+import Text from "../Text/Text";
 
 const BoxGrid = (amount: number, separationMultiplier: number) => {
   const group = new Group();
 
   for (let i = 0; i < amount; i++) {
     const obj = Box();
+    // const text = Text(String(i));
+    // obj.add(text);
+
     obj.position.x = i * separationMultiplier;
     obj.position.y = (obj.geometry as any).parameters.height / 2;
     group.add(obj);
 
     for (let j = 1; j < amount; j++) {
       const obj = Box();
+      const text = Text(String(i));
+      obj.add(text);
       obj.position.x = i * separationMultiplier;
       obj.position.y = (obj.geometry as any).parameters.height / 2;
       obj.position.z = j * separationMultiplier;
