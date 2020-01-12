@@ -1,4 +1,10 @@
-.challenge-form input {
+.challenge-form fieldset {
+  padding: 0;
+  border: 0;
+  margin-bottom: 10px;
+}
+
+.challenge-form input[type="text"] {
   width: 35px;
   line-height: 25px;
   margin-bottom: 10px;

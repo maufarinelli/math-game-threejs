@@ -3,6 +3,7 @@ import { Group } from "three";
 import Box from "./Box";
 import Text from "../Text/Text";
 import StoreContext from "../../../store/context";
+import { autorun } from "mobx";
 
 const BoxGrid = (amount: number, separationMultiplier: number) => {
   const store = useContext(StoreContext);
@@ -12,7 +13,9 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
     const obj = Box();
 
     const text = Text(String(i));
-    text.visible = store.showText;
+    autorun(() => {
+      text.visible = store.textVisibity;
+    });
 
     obj.add(text);
 
@@ -24,7 +27,9 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
       const obj = Box();
 
       const text = Text(String(j * 10 + i));
-      text.visible = store.showText;
+      autorun(() => {
+        text.visible = store.textVisibity;
+      });
 
       obj.add(text);
       obj.position.x = i * separationMultiplier;

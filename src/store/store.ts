@@ -45,6 +45,11 @@ class ChallengeStore {
     }
   }
 
+  @computed
+  public get textVisibity() {
+    return this.showText;
+  }
+
   @action
   toggleTextVisibility() {
     this.showText = !this.showText;
