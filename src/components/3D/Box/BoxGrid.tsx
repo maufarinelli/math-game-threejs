@@ -1,14 +1,19 @@
+import { useContext } from "react";
 import { Group } from "three";
 import Box from "./Box";
 import Text from "../Text/Text";
+import StoreContext from "../../../store/context";
 
 const BoxGrid = (amount: number, separationMultiplier: number) => {
+  const store = useContext(StoreContext);
   const group = new Group();
 
   for (let i = 0; i < amount; i++) {
     const obj = Box();
+
     const text = Text(String(i));
-    // text.visible =
+    text.visible = store.showText;
+
     obj.add(text);
 
     obj.position.x = i * separationMultiplier;
@@ -17,7 +22,10 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
 
     for (let j = 1; j < amount; j++) {
       const obj = Box();
+
       const text = Text(String(j * 10 + i));
+      text.visible = store.showText;
+
       obj.add(text);
       obj.position.x = i * separationMultiplier;
       obj.position.y = (obj.geometry as any).parameters.height / 2;
