@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 
 const Form: React.FC = observer(() => {
   const [value, setValue] = useState("0");
+  const [isPristine, setIsPristine] = useState(true);
   const store = useContext(StoreContext);
 
   const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -22,8 +23,24 @@ const Form: React.FC = observer(() => {
     store.toggleTextVisibility();
   };
 
+  const handleChallengeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsPristine(false);
+    store.setUserAswer(value);
+  };
+
+  const getAnswerStatus = () => {
+    if (isPristine) return;
+
+    if (store.isRightAnswer) {
+      return "Ta reponse est CORRECT!";
+    }
+    return 'Ta reponse n\'est pas correct!';
+  };
+
   return (
-    <form className="challenge-form">
+    <form className="challenge-form" onSubmit={handleChallengeSubmit}>
       <fieldset>
         <input
           className="challenge-form"
@@ -33,6 +50,9 @@ const Form: React.FC = observer(() => {
         />
         <button type="submit">OK</button>
       </fieldset>
+      <div>
+        <p>{getAnswerStatus()}</p>
+      </div>
       <fieldset>
         <label>
           <input

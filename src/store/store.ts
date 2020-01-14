@@ -1,8 +1,8 @@
-import { action, computed, observable, observe, runInAction } from "mobx";
+import { action, computed, observable } from "mobx";
 
 type TOperation = "+" | "-";
 
-const operationsList = ["+", "-"];
+const operationsList: TOperation[] = ["+", "-"];
 
 class ChallengeStore {
   @observable
@@ -17,15 +17,21 @@ class ChallengeStore {
   }
 
   @computed
-  public get numberToCalculate() {
-    return Math.floor(Math.random() * 100);
+  public get operation() {
+    if (this.initialNumber >= 50) {
+      return operationsList[1];
+    }
+
+    return operationsList[0];
   }
 
   @computed
-  public get operation() {
-    const index = Math.floor(Math.random() * 2);
-
-    return operationsList[index];
+  public get numberToCalculate() {
+    if (this.initialNumber >= 50) {
+      return Math.floor(Math.random() * (this.initialNumber - 1));
+    } else {
+      return Math.floor(Math.random() * (this.initialNumber - 1)) + 50;
+    }
   }
 
   public add(a: number, b: number) {
@@ -50,9 +56,19 @@ class ChallengeStore {
     return this.showText;
   }
 
+  @computed
+  public get isRightAnswer() {
+    return this.userAnswer === this.rightAnswer;
+  }
+
   @action
   toggleTextVisibility() {
     this.showText = !this.showText;
+  }
+
+  @action
+  setUserAswer(answer: string) {
+    this.userAnswer = parseInt(answer, 10);
   }
 }
 
