@@ -5,7 +5,10 @@ import {
   Light,
   Mesh,
   Vector3,
-  Group
+  Group,
+  Vector2,
+  Raycaster,
+  Intersection
 } from "three";
 import OrbitControls from "three-orbitcontrols";
 
@@ -35,6 +38,9 @@ const useScene = ({
   let itemsOfScene: Mesh[] = [];
   let sceneGroups: Group[] = [];
   let controls: any;
+  const mouse = new Vector2();
+  const raycaster = new Raycaster();
+  let selectedItem: any;
 
   const setRenderer = () => {
     renderer = new WebGLRenderer();
@@ -97,16 +103,35 @@ const useScene = ({
     controls = new OrbitControls(camera, renderer.domElement);
   };
 
+  const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    event.preventDefault();
+
+    mouse.x = (event.clientX / WIDTH) * 2 - 1;
+    mouse.y = -(event.clientY / HEIGHT) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersection = raycaster.intersectObjects(sceneGroups[0].children);
+
+    if (intersection.length > 0) {
+      // @ts-ignore
+      // intersection[0].object.material.color.setHex(0xffffff);
+      setSelectedBox(intersection[0]);
+    }
+  };
+
+  const setSelectedBox = (intersection: Intersection) => {
+    selectedItem = intersection;
+    // console.log("selectedItem : ", selectedItem);
+  };
+
   const render = () => {
     requestAnimationFrame(render);
+
+    raycaster.setFromCamera(mouse, camera);
 
     controls.update();
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
     renderer.render(scene, camera);
-  };
-
-  const update = () => {
-    requestAnimationFrame(render);
   };
 
   return {
@@ -117,8 +142,8 @@ const useScene = ({
     addGroupsToScene,
     addExternalItemsToScene,
     addOrbitControls,
-    render,
-    update
+    onMouseDown,
+    render
   };
 };
 

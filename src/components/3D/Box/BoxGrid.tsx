@@ -18,6 +18,7 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
     });
 
     obj.add(text);
+    obj.userData.boxNumber = i;
 
     obj.position.x = i * separationMultiplier;
     obj.position.y = (obj.geometry as any).parameters.height / 2;
@@ -32,6 +33,8 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
       });
 
       obj.add(text);
+      obj.userData.boxNumber = j * 10 + i;
+
       obj.position.x = i * separationMultiplier;
       obj.position.y = (obj.geometry as any).parameters.height / 2;
       obj.position.z = j * separationMultiplier;

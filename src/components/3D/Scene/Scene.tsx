@@ -19,6 +19,7 @@ const Scene: React.FC<IScene> = ({ items, light, groups, externalItems }) => {
     addGroupsToScene,
     addExternalItemsToScene,
     addOrbitControls,
+    onMouseDown,
     render
   } = useScene(config.SCENE_CONFIG);
 
@@ -34,7 +35,11 @@ const Scene: React.FC<IScene> = ({ items, light, groups, externalItems }) => {
   useEffect(() => {
     // Attach the renderer-supplied
     // DOM element.
-    container.current && container.current.appendChild(renderer.domElement);
+    if (container.current) {
+      container.current.appendChild(renderer.domElement);
+      // @ts-ignore
+      container.current.addEventListener("mousedown", onMouseDown, false);
+    }
   }, [container, renderer]);
 
   // create a point light and add to the scene
