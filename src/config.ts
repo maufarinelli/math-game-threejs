@@ -38,7 +38,8 @@ export default {
     WIDTH: 1,
     HEIGHT: 0.0001,
     DEPTH: 1,
-    COLOR: "rgb(106, 168, 67)"
+    COLOR: "#6AA843",
+    LIGHTER_COLOR: "0x74B257"
   },
 
   TEXT_CONFIG: {

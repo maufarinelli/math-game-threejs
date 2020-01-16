@@ -11,6 +11,9 @@ import {
   Intersection
 } from "three";
 import OrbitControls from "three-orbitcontrols";
+import StoreContext from "../../../store/context";
+import { useContext } from "react";
+import config from "../../../config";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -41,6 +44,7 @@ const useScene = ({
   const mouse = new Vector2();
   const raycaster = new Raycaster();
   let selectedItem: any;
+  const { challengeStore } = useContext(StoreContext);
 
   const setRenderer = () => {
     renderer = new WebGLRenderer();
@@ -113,15 +117,24 @@ const useScene = ({
     const intersection = raycaster.intersectObjects(sceneGroups[0].children);
 
     if (intersection.length > 0) {
+      sceneGroups[0].children.forEach(child => {
+        console.log("child : ", child);
+        // @ts-ignore
+        child.material.color.set(config.BOX_CONFIG.COLOR);
+      });
       // @ts-ignore
-      // intersection[0].object.material.color.setHex(0xffffff);
+      intersection[0].object.material.color.set(
+        config.BOX_CONFIG.LIGHTER_COLOR
+      );
       setSelectedBox(intersection[0]);
     }
   };
 
   const setSelectedBox = (intersection: Intersection) => {
     selectedItem = intersection;
-    // console.log("selectedItem : ", selectedItem);
+    console.log("selectedItem : ", selectedItem);
+
+    challengeStore.setUserAswer(String(selectedItem.object.userData.boxNumber));
   };
 
   const render = () => {
@@ -129,8 +142,14 @@ const useScene = ({
 
     raycaster.setFromCamera(mouse, camera);
 
+    // if(selectedItem.position !== cat.position) {
+    //   cat.jumpX();
+    // }
+
     controls.update();
+
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
+
     renderer.render(scene, camera);
   };
 

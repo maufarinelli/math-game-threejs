@@ -6,7 +6,7 @@ import StoreContext from "../../../store/context";
 import { autorun } from "mobx";
 
 const BoxGrid = (amount: number, separationMultiplier: number) => {
-  const store = useContext(StoreContext);
+  const { uiStore } = useContext(StoreContext);
   const group = new Group();
 
   for (let i = 0; i < amount; i++) {
@@ -14,7 +14,7 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
 
     const text = Text(String(i));
     autorun(() => {
-      text.visible = store.textVisibity;
+      text.visible = uiStore.textVisibity;
     });
 
     obj.add(text);
@@ -29,7 +29,7 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
 
       const text = Text(String(j * 10 + i));
       autorun(() => {
-        text.visible = store.textVisibity;
+        text.visible = uiStore.textVisibity;
       });
 
       obj.add(text);

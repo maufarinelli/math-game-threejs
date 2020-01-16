@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import StoreContext from "./store/context";
-import { store } from "./store/store";
+import store from "./store/store";
 
 ReactDOM.render(
   <StoreContext.Provider value={store}>

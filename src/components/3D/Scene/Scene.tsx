@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Light, Mesh, Group } from "three";
 import useScene from "./useScene";
 import config from "../../../config";
+import { observer } from "mobx-react";
 
 interface IScene {
   items: Mesh[];
@@ -10,59 +11,61 @@ interface IScene {
   externalItems?: Array<(scene: any) => void>;
 }
 
-const Scene: React.FC<IScene> = ({ items, light, groups, externalItems }) => {
-  const {
-    setAllScene,
-    getRenderer,
-    addLightsToScene,
-    addItemsToScene,
-    addGroupsToScene,
-    addExternalItemsToScene,
-    addOrbitControls,
-    onMouseDown,
-    render
-  } = useScene(config.SCENE_CONFIG);
+const Scene: React.FC<IScene> = observer(
+  ({ items, light, groups, externalItems }) => {
+    const {
+      setAllScene,
+      getRenderer,
+      addLightsToScene,
+      addItemsToScene,
+      addGroupsToScene,
+      addExternalItemsToScene,
+      addOrbitControls,
+      onMouseDown,
+      render
+    } = useScene(config.SCENE_CONFIG);
 
-  // Get the DOM element to attach to
-  const container: React.RefObject<HTMLDivElement> = React.createRef();
+    // Get the DOM element to attach to
+    const container: React.RefObject<HTMLDivElement> = React.createRef();
 
-  // Create a WebGL renderer, camera
-  // and a scene
-  setAllScene();
+    // Create a WebGL renderer, camera
+    // and a scene
+    setAllScene();
 
-  const renderer = getRenderer();
+    const renderer = getRenderer();
 
-  useEffect(() => {
-    // Attach the renderer-supplied
-    // DOM element.
-    if (container.current) {
-      container.current.appendChild(renderer.domElement);
-      // @ts-ignore
-      container.current.addEventListener("mousedown", onMouseDown, false);
+    useEffect(() => {
+      // Attach the renderer-supplied
+      // DOM element.
+      if (container.current) {
+        container.current.appendChild(renderer.domElement);
+        // @ts-ignore
+        container.current.addEventListener("mousedown", onMouseDown, false);
+      }
+    }, [container, renderer]);
+
+    // create a point light and add to the scene
+    // addPointLightsToScene(config.POINT_LIGHT);
+    addLightsToScene(light);
+
+    // add Items to the scene
+    addItemsToScene(items);
+
+    if (groups) {
+      addGroupsToScene(groups);
     }
-  }, [container, renderer]);
 
-  // create a point light and add to the scene
-  // addPointLightsToScene(config.POINT_LIGHT);
-  addLightsToScene(light);
+    if (externalItems) {
+      addExternalItemsToScene(externalItems);
+    }
 
-  // add Items to the scene
-  addItemsToScene(items);
+    addOrbitControls();
 
-  if (groups) {
-    addGroupsToScene(groups);
+    // Draw!
+    render();
+
+    return <div ref={container} />;
   }
-
-  if (externalItems) {
-    addExternalItemsToScene(externalItems);
-  }
-
-  addOrbitControls();
-
-  // Draw!
-  render();
-
-  return <div ref={container} />;
-};
+);
 
 export default Scene;

@@ -11,11 +11,11 @@ const Cat = (scene: THREE.Scene) => {
 
   loader.load("./CatMac.obj", (object: THREE.Mesh) => {
     const colorMap = textureLoader.load("./cat_textures/CatMac_C.png");
-    const diffuseMap = textureLoader.load("./cat_textures/CatMac_D.jpg");
+    // const diffuseMap = textureLoader.load("./cat_textures/CatMac_D.jpg");
     const normalMap = textureLoader.load("./cat_textures/CatMac_N.jpg");
     const aoMap = textureLoader.load("./cat_textures/CatMac_AO.jpg");
     const specularMap = textureLoader.load("./cat_textures/CatMac_S.jpg");
-    const eyesMap = textureLoader.load("./cat_textures/CatMacEyes_S.png");
+    // const eyesMap = textureLoader.load("./cat_textures/CatMacEyes_S.png");
 
     const colorMaterial = new THREE.MeshPhongMaterial({
       map: colorMap,
@@ -25,7 +25,6 @@ const Cat = (scene: THREE.Scene) => {
     });
 
     object.traverse((child: THREE.Object3D) => {
-      console.log(child);
       // @ts-ignore
       child.material = colorMaterial;
     });
@@ -38,7 +37,7 @@ const Cat = (scene: THREE.Scene) => {
     object.position.y = 0;
     object.position.x = 7;
 
-    // object.rotation.y = 90;
+    object.rotation.y = -90;
 
     scene.add(object);
   });
