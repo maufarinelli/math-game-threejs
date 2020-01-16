@@ -4,10 +4,12 @@ import Box from "./Box";
 import Text from "../Text/Text";
 import StoreContext from "../../../store/context";
 import { autorun } from "mobx";
+import config from "../../../config";
 
-const BoxGrid = (amount: number, separationMultiplier: number) => {
+const BoxGrid = (amount: number) => {
   const { uiStore } = useContext(StoreContext);
   const group = new Group();
+  const separator = -config.BOX_CONFIG.SEPARATOR;
 
   for (let i = 0; i < amount; i++) {
     const obj = Box();
@@ -20,7 +22,7 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
     obj.add(text);
     obj.userData.boxNumber = i;
 
-    obj.position.x = i * separationMultiplier;
+    obj.position.x = i * separator;
     obj.position.y = (obj.geometry as any).parameters.height / 2;
     group.add(obj);
 
@@ -35,15 +37,15 @@ const BoxGrid = (amount: number, separationMultiplier: number) => {
       obj.add(text);
       obj.userData.boxNumber = j * 10 + i;
 
-      obj.position.x = i * separationMultiplier;
+      obj.position.x = i * separator;
       obj.position.y = (obj.geometry as any).parameters.height / 2;
-      obj.position.z = j * separationMultiplier;
+      obj.position.z = j * separator;
       group.add(obj);
     }
   }
 
-  group.position.x = -(separationMultiplier * (amount - 1)) / 2;
-  group.position.z = -(separationMultiplier * (amount - 1)) / 2;
+  group.position.x = -(separator * (amount - 1)) / 2;
+  group.position.z = -(separator * (amount - 1)) / 2;
 
   return group;
 };

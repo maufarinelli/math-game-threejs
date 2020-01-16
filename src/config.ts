@@ -39,7 +39,8 @@ export default {
     HEIGHT: 0.0001,
     DEPTH: 1,
     COLOR: "#6AA843",
-    LIGHTER_COLOR: "0x74B257"
+    LIGHTER_COLOR: "0x74B257",
+    SEPARATOR: 1.5
   },
 
   TEXT_CONFIG: {

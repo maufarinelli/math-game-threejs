@@ -3,23 +3,24 @@ import { Light, Mesh, Group } from "three";
 import useScene from "./useScene";
 import config from "../../../config";
 import { observer } from "mobx-react";
+import Character from "../Character/Character";
 
 interface IScene {
   items: Mesh[];
   groups?: Group[];
   light: Light;
-  externalItems?: Array<(scene: any) => void>;
+  Character: typeof Character;
 }
 
 const Scene: React.FC<IScene> = observer(
-  ({ items, light, groups, externalItems }) => {
+  ({ items, light, groups, Character }) => {
     const {
       setAllScene,
       getRenderer,
       addLightsToScene,
       addItemsToScene,
       addGroupsToScene,
-      addExternalItemsToScene,
+      addCharacterToScene,
       addOrbitControls,
       onMouseDown,
       render
@@ -55,8 +56,8 @@ const Scene: React.FC<IScene> = observer(
       addGroupsToScene(groups);
     }
 
-    if (externalItems) {
-      addExternalItemsToScene(externalItems);
+    if (Character) {
+      addCharacterToScene(Character);
     }
 
     addOrbitControls();

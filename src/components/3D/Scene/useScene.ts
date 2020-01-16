@@ -14,6 +14,7 @@ import OrbitControls from "three-orbitcontrols";
 import StoreContext from "../../../store/context";
 import { useContext } from "react";
 import config from "../../../config";
+import Character from "../Character/Character";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -40,6 +41,7 @@ const useScene = ({
   let sceneLight: Light;
   let itemsOfScene: Mesh[] = [];
   let sceneGroups: Group[] = [];
+  let character: Character;
   let controls: any;
   const mouse = new Vector2();
   const raycaster = new Raycaster();
@@ -95,12 +97,8 @@ const useScene = ({
     });
   };
 
-  const addExternalItemsToScene = (
-    externalItems: Array<(scene: Scene) => void>
-  ) => {
-    externalItems.forEach(externalItem => {
-      externalItem(scene);
-    });
+  const addCharacterToScene = (Character: any) => {
+    character = new Character(scene);
   };
 
   const addOrbitControls = () => {
@@ -118,7 +116,6 @@ const useScene = ({
 
     if (intersection.length > 0) {
       sceneGroups[0].children.forEach(child => {
-        console.log("child : ", child);
         // @ts-ignore
         child.material.color.set(config.BOX_CONFIG.COLOR);
       });
@@ -126,7 +123,9 @@ const useScene = ({
       intersection[0].object.material.color.set(
         config.BOX_CONFIG.LIGHTER_COLOR
       );
+
       setSelectedBox(intersection[0]);
+      character.jumpLeft();
     }
   };
 
@@ -142,10 +141,6 @@ const useScene = ({
 
     raycaster.setFromCamera(mouse, camera);
 
-    // if(selectedItem.position !== cat.position) {
-    //   cat.jumpX();
-    // }
-
     controls.update();
 
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
@@ -159,7 +154,7 @@ const useScene = ({
     addLightsToScene,
     addItemsToScene,
     addGroupsToScene,
-    addExternalItemsToScene,
+    addCharacterToScene,
     addOrbitControls,
     onMouseDown,
     render
