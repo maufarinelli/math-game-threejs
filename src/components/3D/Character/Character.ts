@@ -1,6 +1,7 @@
 import * as OBJLoader from "three-obj-loader";
 import * as THREE from "three";
 import config from "../../../config";
+import { Intersection } from "three";
 
 export interface ICharacter {
   character: THREE.Mesh;
@@ -58,7 +59,7 @@ class Character {
       object.scale.y = 2;
       object.scale.z = 2;
 
-      this.changeCharacterPosition({ x: 7, y: 0, z: 7 });
+      this.changeCharacterPosition({ x: 0, y: 0, z: 0 });
 
       scene.add(object);
     });
@@ -73,9 +74,9 @@ class Character {
     y?: number;
     z?: number;
   }) {
-    if (x) this.character.position.x = x;
-    if (y) this.character.position.y = y;
-    if (z) this.character.position.z = z;
+    if (x || x === 0) this.character.position.x = x;
+    if (y || y === 0) this.character.position.y = y;
+    if (z || z === 0) this.character.position.z = z;
   }
 
   private changeCharacteRotation({
@@ -87,31 +88,74 @@ class Character {
     y?: number;
     z?: number;
   }) {
-    if (x) this.character.rotation.x = x;
-    if (y) this.character.rotation.y = y;
-    if (z) this.character.rotation.z = z;
+    if (x || x === 0) this.character.rotation.x = x;
+    if (y || y === 0) this.character.rotation.y = y;
+    if (z || z === 0) this.character.rotation.z = z;
   }
 
   public jumpLeft() {
     const currentX = this.character.position.x;
-    this.changeCharacteRotation({ y: -90 });
+    this.changeCharacteRotation({ y: -Math.PI / 2 });
     this.changeCharacterPosition({ x: currentX - config.BOX_CONFIG.SEPARATOR });
   }
 
   public jumpRight() {
     const currentX = this.character.position.x;
-    this.changeCharacteRotation({ y: 90 });
+    this.changeCharacteRotation({ y: Math.PI / 2 });
     this.changeCharacterPosition({ x: currentX + config.BOX_CONFIG.SEPARATOR });
   }
 
   public jumpUp() {
     const currentZ = this.character.position.z;
+    this.changeCharacteRotation({ y: Math.PI });
     this.changeCharacterPosition({ z: currentZ - config.BOX_CONFIG.SEPARATOR });
   }
 
   public jumpDown() {
     const currentZ = this.character.position.z;
+    this.changeCharacteRotation({ y: 0 });
     this.changeCharacterPosition({ z: currentZ + config.BOX_CONFIG.SEPARATOR });
+  }
+
+  public dig() {
+    console.log("DIGGING");
+  }
+
+  public isMoveAllowed(currentSelectedItem: Intersection) {
+    const selectedPosX = currentSelectedItem.object.position.x;
+    const selectedPosZ = currentSelectedItem.object.position.z;
+    const characterPosX = this.character.position.x;
+    const characterPosZ = this.character.position.z;
+
+    return (
+      (selectedPosX - characterPosX === -config.BOX_CONFIG.SEPARATOR ||
+        selectedPosX - characterPosX === config.BOX_CONFIG.SEPARATOR ||
+        selectedPosX - characterPosX === 0) &&
+      (selectedPosZ - characterPosZ === -config.BOX_CONFIG.SEPARATOR ||
+        selectedPosZ - characterPosZ === config.BOX_CONFIG.SEPARATOR ||
+        selectedPosZ - characterPosZ === 0)
+    );
+  }
+
+  public action(currentSelectedItem: Intersection) {
+    const selectedPosX = currentSelectedItem.object.position.x;
+    const selectedPosZ = currentSelectedItem.object.position.z;
+    const characterPosX = this.character.position.x;
+    const characterPosZ = this.character.position.z;
+
+    if (!this.isMoveAllowed(currentSelectedItem)) return;
+
+    if (characterPosX > selectedPosX) {
+      this.jumpLeft();
+    } else if (characterPosX < selectedPosX) {
+      this.jumpRight();
+    }
+
+    if (characterPosZ > selectedPosZ) {
+      this.jumpUp();
+    } else if (characterPosZ < selectedPosZ) {
+      this.jumpDown();
+    }
   }
 }
 

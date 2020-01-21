@@ -1,7 +1,9 @@
+const sidebarWidth = 180;
+
 export default {
   SCENE_CONFIG: {
     // Set the scene size.
-    WIDTH: window.innerWidth - 300,
+    WIDTH: window.innerWidth - sidebarWidth,
     HEIGHT: window.innerHeight,
 
     // Set some camera attributes.
@@ -13,6 +15,12 @@ export default {
     FAR: 1000,
 
     COLOR: "rgb(140, 220, 250)"
+  },
+
+  CAMERA_CONFIG: {
+    x: -6.7,
+    y: 15,
+    z: 19
   },
 
   // Set some point lights
@@ -39,7 +47,7 @@ export default {
     HEIGHT: 0.0001,
     DEPTH: 1,
     COLOR: "#6AA843",
-    LIGHTER_COLOR: "0x74B257",
+    LIGHTER_COLOR: "0xA5CA8E",
     SEPARATOR: 1.5
   },
 

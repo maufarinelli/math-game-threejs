@@ -22,7 +22,7 @@ const BoxGrid = (amount: number) => {
     obj.add(text);
     obj.userData.boxNumber = i;
 
-    obj.position.x = i * separator;
+    obj.position.x = i === 0 ? i : i * separator;
     obj.position.y = (obj.geometry as any).parameters.height / 2;
     group.add(obj);
 
@@ -44,8 +44,8 @@ const BoxGrid = (amount: number) => {
     }
   }
 
-  group.position.x = -(separator * (amount - 1)) / 2;
-  group.position.z = -(separator * (amount - 1)) / 2;
+  // group.position.x = -(separator * (amount - 1)) / 2;
+  // group.position.z = -(separator * (amount - 1)) / 2;
 
   return group;
 };

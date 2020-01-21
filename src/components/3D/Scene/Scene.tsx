@@ -23,6 +23,7 @@ const Scene: React.FC<IScene> = observer(
       addCharacterToScene,
       addOrbitControls,
       onMouseDown,
+      onTouchStart,
       render
     } = useScene(config.SCENE_CONFIG);
 
@@ -42,6 +43,7 @@ const Scene: React.FC<IScene> = observer(
         container.current.appendChild(renderer.domElement);
         // @ts-ignore
         container.current.addEventListener("mousedown", onMouseDown, false);
+        container.current.addEventListener("touchstart", onTouchStart, false);
       }
     }, [container, renderer]);
 
@@ -60,7 +62,7 @@ const Scene: React.FC<IScene> = observer(
       addCharacterToScene(Character);
     }
 
-    addOrbitControls();
+    // addOrbitControls();
 
     // Draw!
     render();
