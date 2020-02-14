@@ -10,6 +10,10 @@ export interface ICharacter {
 class Character {
   public character: THREE.Mesh = new THREE.Mesh();
 
+  public isDigging: boolean = false;
+  public isDiggingDownFinished: boolean = false;
+  public isDiggingUpFinished: boolean = false;
+
   constructor(scene: THREE.Scene) {
     this.loadCatIntoScene(scene);
   }
@@ -79,7 +83,7 @@ class Character {
     if (z || z === 0) this.character.position.z = z;
   }
 
-  private changeCharacteRotation({
+  public changeCharacteRotation({
     x,
     y,
     z
@@ -117,8 +121,48 @@ class Character {
     this.changeCharacterPosition({ z: currentZ + config.BOX_CONFIG.SEPARATOR });
   }
 
-  public dig() {
-    console.log("DIGGING");
+  public dig(currentSelectedItem: Intersection) {
+    const selectedPosX = currentSelectedItem.object.position.x;
+    const selectedPosZ = currentSelectedItem.object.position.z;
+    const characterPosX = this.character.position.x;
+    const characterPosZ = this.character.position.z;
+
+    if (selectedPosX === characterPosX && selectedPosZ === characterPosZ) {
+      this.changeCharacteRotation({ y: 0 });
+      this.isDigging = true;
+      this.isDiggingDownFinished = false;
+      this.isDiggingUpFinished = false;
+    }
+  }
+
+  public digAnimation() {
+    if (this.isDigging) {
+      if (!this.isDiggingDownFinished) {
+        this.digAnimationDown();
+      } else {
+        this.digAnimationUp();
+
+        if (this.isDiggingUpFinished) {
+          this.isDigging = false;
+        }
+      }
+    }
+  }
+
+  public digAnimationDown() {
+    this.character.rotation.x += 0.05;
+
+    if (this.character.rotation.x >= 0.5) {
+      this.isDiggingDownFinished = true;
+    }
+  }
+
+  public digAnimationUp() {
+    this.character.rotation.x -= 0.05;
+
+    if (this.character.rotation.x <= 0) {
+      this.isDiggingUpFinished = true;
+    }
   }
 
   public isMoveAllowed(currentSelectedItem: Intersection) {
@@ -137,7 +181,7 @@ class Character {
     );
   }
 
-  public action(currentSelectedItem: Intersection) {
+  public jumpAction(currentSelectedItem: Intersection) {
     const selectedPosX = currentSelectedItem.object.position.x;
     const selectedPosZ = currentSelectedItem.object.position.z;
     const characterPosX = this.character.position.x;

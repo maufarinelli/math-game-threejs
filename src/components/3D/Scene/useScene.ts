@@ -36,6 +36,7 @@ const useScene = ({
   FAR,
   COLOR
 }: ISceneConfig) => {
+  let canvas: any;
   let renderer: WebGLRenderer;
   let camera: PerspectiveCamera;
   let scene: Scene;
@@ -68,7 +69,7 @@ const useScene = ({
     camera.position.y = config.CAMERA_CONFIG.y;
     camera.position.z = config.CAMERA_CONFIG.z;
 
-    camera.lookAt(new Vector3(-7, 0, -5));
+    camera.lookAt(new Vector3(-7, 2, -2));
   };
 
   const setScene = () => (scene = new Scene());
@@ -77,6 +78,10 @@ const useScene = ({
     setRenderer();
     setCamera();
     setScene();
+  };
+
+  const setCanvas = (container: React.RefObject<HTMLDivElement>) => {
+    canvas = container.current?.children[0];
   };
 
   // for debugging purposes
@@ -120,21 +125,18 @@ const useScene = ({
     controls = new OrbitControls(camera, renderer.domElement);
   };
 
+  // https://stackoverflow.com/questions/29518886/moved-coordinates-of-the-scene-when-dom-element-with-renderer-is-not-at-the-top
+  const setMousePosition = (event: any) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / window.innerWidth) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / HEIGHT) * 2 + 1;
+  };
+
   const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     event.preventDefault();
+    setMousePosition(event);
 
-    mouse.x = (event.clientX / WIDTH) * 2 - 1;
-    mouse.y = -(event.clientY / HEIGHT) * 2 + 1;
-
-    console.log("mouse, onMouseDown", mouse);
-
-    raycaster.setFromCamera(mouse, camera);
-    const intersection = raycaster.intersectObjects(sceneGroups[0].children);
-
-    if (intersection.length > 0) {
-      selectBoxAction(intersection[0]);
-      dispatchCharacteraction();
-    }
+    raycasterAction();
   };
 
   const onTouchStart = (event: any) => {
@@ -144,17 +146,32 @@ const useScene = ({
     if (event.targetTouches.length >= 1) touch = event.targetTouches.item(0);
     else touch = event.touches.item(0);
 
-    mouse.x = (touch.clientX / WIDTH) * 2 - 1;
-    mouse.y = -(touch.clientY / HEIGHT) * 2 + 1;
+    setMousePosition(touch);
+    raycasterAction();
+  };
 
-    console.log("mouse, onTouchStart", mouse);
+  const onDoubleClick = (event: any) => {
+    event.preventDefault();
+    setMousePosition(event);
 
     raycaster.setFromCamera(mouse, camera);
     const intersection = raycaster.intersectObjects(sceneGroups[0].children);
 
     if (intersection.length > 0) {
       selectBoxAction(intersection[0]);
-      dispatchCharacteraction();
+      dispatchCharacterDigAction();
+    }
+  };
+
+  const raycasterAction = () => {
+    raycaster.setFromCamera(mouse, camera);
+    const intersection = raycaster.intersectObjects(sceneGroups[0].children);
+
+    console.log("intersection : ", intersection);
+
+    if (intersection.length > 0) {
+      selectBoxAction(intersection[0]);
+      dispatchCharacterJumpAction();
     }
   };
 
@@ -165,8 +182,13 @@ const useScene = ({
     setSelectedBox(intersection);
   };
 
-  const dispatchCharacteraction = () => {
-    character.action(selectedItem);
+  const dispatchCharacterJumpAction = () => {
+    character.jumpAction(selectedItem);
+  };
+
+  const dispatchCharacterDigAction = () => {
+    character.dig(selectedItem);
+    challengeStore.setUserAswer(String(selectedItem.object.userData.boxNumber));
   };
 
   const highlightSelectedBox = (intersection: Intersection) => {
@@ -180,14 +202,10 @@ const useScene = ({
 
   const setPreviousSelectedItem = () => {
     previousSelectedItem = { ...selectedItem };
-    console.log("previousSelectedItem : ", previousSelectedItem);
   };
 
   const setSelectedBox = (intersection: Intersection) => {
     selectedItem = intersection;
-    console.log("selectedItem : ", selectedItem);
-
-    // challengeStore.setUserAswer(String(selectedItem.object.userData.boxNumber));
   };
 
   const render = () => {
@@ -196,6 +214,7 @@ const useScene = ({
     raycaster.setFromCamera(mouse, camera);
 
     // controls.update();
+    character.digAnimation();
 
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
 
@@ -204,6 +223,7 @@ const useScene = ({
 
   return {
     setAllScene,
+    setCanvas,
     getRenderer,
     addLightsToScene,
     addItemsToScene,
@@ -212,6 +232,7 @@ const useScene = ({
     addOrbitControls,
     onMouseDown,
     onTouchStart,
+    onDoubleClick,
     render
   };
 };

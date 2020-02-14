@@ -16,6 +16,7 @@ const Scene: React.FC<IScene> = observer(
   ({ items, light, groups, Character }) => {
     const {
       setAllScene,
+      setCanvas,
       getRenderer,
       addLightsToScene,
       addItemsToScene,
@@ -24,6 +25,7 @@ const Scene: React.FC<IScene> = observer(
       addOrbitControls,
       onMouseDown,
       onTouchStart,
+      onDoubleClick,
       render
     } = useScene(config.SCENE_CONFIG);
 
@@ -44,6 +46,9 @@ const Scene: React.FC<IScene> = observer(
         // @ts-ignore
         container.current.addEventListener("mousedown", onMouseDown, false);
         container.current.addEventListener("touchstart", onTouchStart, false);
+        container.current.addEventListener("dblclick", onDoubleClick, false);
+
+        setCanvas(container);
       }
     }, [container, renderer]);
 

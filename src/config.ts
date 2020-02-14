@@ -1,10 +1,10 @@
-const sidebarWidth = 180;
+const headerHeight = 115;
 
 export default {
   SCENE_CONFIG: {
     // Set the scene size.
-    WIDTH: window.innerWidth - sidebarWidth,
-    HEIGHT: window.innerHeight,
+    WIDTH: window.innerWidth,
+    HEIGHT: window.innerHeight - headerHeight,
 
     // Set some camera attributes.
     VIEW_ANGLE: 35,
@@ -19,8 +19,8 @@ export default {
 
   CAMERA_CONFIG: {
     x: -6.7,
-    y: 15,
-    z: 19
+    y: 13,
+    z: 12
   },
 
   // Set some point lights

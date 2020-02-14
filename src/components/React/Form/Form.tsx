@@ -24,7 +24,7 @@ const Form: React.FC = observer(() => {
       <div>
         <p>{getAnswerStatus()}</p>
       </div>
-      <fieldset>
+      {/* <fieldset>
         <label>
           <input
             type="checkbox"
@@ -33,7 +33,7 @@ const Form: React.FC = observer(() => {
           />
           Montrer les chiffres
         </label>
-      </fieldset>
+      </fieldset> */}
     </form>
   );
 });
