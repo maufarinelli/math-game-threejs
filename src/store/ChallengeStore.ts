@@ -57,7 +57,7 @@ class ChallengeStore {
   }
 
   @action
-  setUserAswer(answer: string) {
+  public setUserAswer(answer: string) {
     this.isPristine = false;
     this.userAnswer = parseInt(answer, 10);
   }

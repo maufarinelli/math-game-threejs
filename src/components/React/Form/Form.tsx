@@ -4,11 +4,7 @@ import StoreContext from "../../../store/context";
 import { observer } from "mobx-react";
 
 const Form: React.FC = observer(() => {
-  const { challengeStore, uiStore } = useContext(StoreContext);
-
-  const handleCheckboxChange = () => {
-    uiStore.toggleTextVisibility();
-  };
+  const { challengeStore } = useContext(StoreContext);
 
   const getAnswerStatus = () => {
     if (challengeStore.isPristine) return;
@@ -24,16 +20,6 @@ const Form: React.FC = observer(() => {
       <div>
         <p>{getAnswerStatus()}</p>
       </div>
-      {/* <fieldset>
-        <label>
-          <input
-            type="checkbox"
-            checked={uiStore.showText}
-            onChange={handleCheckboxChange}
-          />
-          Montrer les chiffres
-        </label>
-      </fieldset> */}
     </form>
   );
 });

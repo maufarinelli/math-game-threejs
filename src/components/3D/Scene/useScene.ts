@@ -16,6 +16,7 @@ import { useContext } from "react";
 import config from "../../../config";
 import Character from "../Character/Character";
 import * as dat from "dat.gui";
+import GameStore from "../../../store/GameStore";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -48,8 +49,7 @@ const useScene = ({
   const mouse = new Vector2();
   const raycaster = new Raycaster();
   let selectedItem: Intersection;
-  let previousSelectedItem: Intersection;
-  const { challengeStore } = useContext(StoreContext);
+  const { challengeStore, gameStore } = useContext(StoreContext);
 
   const setRenderer = () => {
     renderer = new WebGLRenderer();
@@ -119,6 +119,7 @@ const useScene = ({
 
   const addCharacterToScene = (Character: any) => {
     character = new Character(scene);
+    gameStore.setCharacter(character);
   };
 
   const addOrbitControls = () => {
@@ -134,9 +135,9 @@ const useScene = ({
 
   const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     event.preventDefault();
-    setMousePosition(event);
 
-    raycasterAction();
+    setMousePosition(event);
+    raycasterAction(event.type);
   };
 
   const onTouchStart = (event: any) => {
@@ -147,65 +148,29 @@ const useScene = ({
     else touch = event.touches.item(0);
 
     setMousePosition(touch);
-    raycasterAction();
+    raycasterAction(event.type);
   };
 
   const onDoubleClick = (event: any) => {
     event.preventDefault();
     setMousePosition(event);
 
+    raycasterAction(event.type);
+  };
+
+  const raycasterAction = (eventType: string) => {
     raycaster.setFromCamera(mouse, camera);
     const intersection = raycaster.intersectObjects(sceneGroups[0].children);
 
     if (intersection.length > 0) {
-      selectBoxAction(intersection[0]);
-      dispatchCharacterDigAction();
+      gameStore.selectBoxAction(intersection[0], sceneGroups[0].children);
+
+      if (eventType !== "dblclick") {
+        gameStore.dispatchCharacterJumpAction();
+      } else {
+        gameStore.dispatchCharacterDigAction();
+      }
     }
-  };
-
-  const raycasterAction = () => {
-    raycaster.setFromCamera(mouse, camera);
-    const intersection = raycaster.intersectObjects(sceneGroups[0].children);
-
-    console.log("intersection : ", intersection);
-
-    if (intersection.length > 0) {
-      selectBoxAction(intersection[0]);
-      dispatchCharacterJumpAction();
-    }
-  };
-
-  const selectBoxAction = (intersection: Intersection) => {
-    highlightSelectedBox(intersection);
-
-    if (selectedItem) setPreviousSelectedItem();
-    setSelectedBox(intersection);
-  };
-
-  const dispatchCharacterJumpAction = () => {
-    character.jumpAction(selectedItem);
-  };
-
-  const dispatchCharacterDigAction = () => {
-    character.dig(selectedItem);
-    challengeStore.setUserAswer(String(selectedItem.object.userData.boxNumber));
-  };
-
-  const highlightSelectedBox = (intersection: Intersection) => {
-    sceneGroups[0].children.forEach(child => {
-      // @ts-ignore
-      child.material.color.set(config.BOX_CONFIG.COLOR);
-    });
-    // @ts-ignore
-    intersection.object.material.color.setHex(config.BOX_CONFIG.LIGHTER_COLOR);
-  };
-
-  const setPreviousSelectedItem = () => {
-    previousSelectedItem = { ...selectedItem };
-  };
-
-  const setSelectedBox = (intersection: Intersection) => {
-    selectedItem = intersection;
   };
 
   const render = () => {

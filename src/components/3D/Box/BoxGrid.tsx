@@ -1,13 +1,9 @@
-import { useContext } from "react";
 import { Group } from "three";
 import Box from "./Box";
 import Text from "../Text/Text";
-import StoreContext from "../../../store/context";
-import { autorun } from "mobx";
 import config from "../../../config";
 
 const BoxGrid = (amount: number) => {
-  const { uiStore } = useContext(StoreContext);
   const group = new Group();
   const separator = -config.BOX_CONFIG.SEPARATOR;
 
@@ -15,9 +11,6 @@ const BoxGrid = (amount: number) => {
     const obj = Box();
 
     const text = Text(String(i));
-    autorun(() => {
-      text.visible = uiStore.textVisibity;
-    });
 
     obj.add(text);
     obj.userData.boxNumber = i;
@@ -30,9 +23,6 @@ const BoxGrid = (amount: number) => {
       const obj = Box();
 
       const text = Text(String(j * 10 + i));
-      autorun(() => {
-        text.visible = uiStore.textVisibity;
-      });
 
       obj.add(text);
       obj.userData.boxNumber = j * 10 + i;
