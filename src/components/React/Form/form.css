@@ -12,7 +12,26 @@
   transform: translate(-50%, -50%);
 }
 
+.form p {
+  color: white;
+}
+
 .form button {
+  background-color: rgb(26, 26, 26);
+  color: white;
+  font-size: 40px;
+  border: 0;
+  padding: 10px 20px;
+  border-radius: 15px;
+}
+
+.form-restart {
+  position: absolute;
+  bottom: 5%;
+  right: 3%;
+}
+
+.form-restart button {
   background-color: rgb(26, 26, 26);
   color: white;
   font-size: 40px;

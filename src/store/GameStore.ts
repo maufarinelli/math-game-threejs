@@ -24,12 +24,20 @@ class GameStore {
   @observable
   public _isLevelCompleted: boolean;
 
+  @observable
+  public _isLevelNotCompletedSuccessfully: boolean;
+
+  @observable
+  public _isGameCompleted: boolean;
+
   constructor(private challengeStore: ChallengeStore) {
     this._score = 0;
     this._level = 1;
     this._phase = 1;
     this._showForm = false;
     this._isLevelCompleted = false;
+    this._isLevelNotCompletedSuccessfully = false;
+    this._isGameCompleted = false;
   }
 
   private highlightSelectedBox(intersection: Intersection, boxes: Group[]) {
@@ -76,10 +84,25 @@ class GameStore {
 
     if (this._phase < 5) {
       this._phase++;
-    } else {
+      this._isLevelCompleted = false;
+      this._isLevelNotCompletedSuccessfully = false;
+    } else if (
+      (this._level === 1 && this._score >= 3) ||
+      (this._level === 2 && this._score >= 4)
+    ) {
       this._isLevelCompleted = true;
+      this._isLevelNotCompletedSuccessfully = false;
       this._phase = 1;
       this._level++;
+    } else if (
+      (this._level === 1 && this._score < 3) ||
+      (this._level === 2 && this._score < 4)
+    ) {
+      this._isLevelCompleted = true;
+      this._isLevelNotCompletedSuccessfully = true;
+      this._phase = 1;
+    } else if (this._level === 3 && this._score >= 5) {
+      this._isGameCompleted = true;
     }
 
     setTimeout(() => {
@@ -114,9 +137,30 @@ class GameStore {
     return this._isLevelCompleted;
   }
 
+  @computed
+  public get isLevelNotCompletedSuccessfully() {
+    return this._isLevelNotCompletedSuccessfully;
+  }
+
+  @computed
+  public get isGameCompleted() {
+    return this._isGameCompleted;
+  }
+
   @action
   public handleNextClick() {
     this._showForm = false;
+    this.challengeStore.reinitialize();
+    this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
+  }
+
+  @action
+  public handleRestartClick() {
+    this._showForm = false;
+    this._isLevelCompleted = false;
+    this._score = 0;
+    this._level = 1;
+    this._phase = 1;
     this.challengeStore.reinitialize();
     this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
   }
