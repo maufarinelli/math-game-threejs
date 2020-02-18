@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import StoreContext from "../../../store/context";
+import { observer } from "mobx-react";
 
 interface ICoins {
   score: number;
@@ -14,17 +16,30 @@ const Coins: React.FC<ICoins> = ({ score }) => {
   return <>{coins}</>;
 };
 
-const Score: React.FC = () => {
-  const [score] = useState(4);
+const Score: React.FC = observer(() => {
+  const { gameStore, challengeStore } = useContext(StoreContext);
+  const { score, level, phase } = gameStore;
+
+  const getAnswerStatus = () => {
+    if (challengeStore.isPristine) return;
+
+    if (challengeStore.isRightAnswer) {
+      return "Ta reponse est CORRECT!";
+    }
+    return 'Ta reponse n\'est pas correct!';
+  };
 
   return (
     <div>
+      <p>
+        {getAnswerStatus()} Level: {level}x{phase}
+      </p>
       <div>
         <Coins score={score} />
       </div>
-      <span>{score}</span>
+      <span>Score: {score}</span>
     </div>
   );
-};
+});
 
 export default Score;

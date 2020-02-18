@@ -1,9 +1,12 @@
 import ChallengeStore from "./ChallengeStore";
 import GameStore from "./GameStore";
 
+const challengeStore = new ChallengeStore();
+const gameStore = new GameStore(challengeStore);
+
 const store: any = {
-  challengeStore: new ChallengeStore()
+  challengeStore,
+  gameStore
 };
-store.gameStore = new GameStore(store.challengeStore);
 
 export default store;

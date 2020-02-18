@@ -69,7 +69,7 @@ class Character {
     });
   }
 
-  private changeCharacterPosition({
+  public changeCharacterPosition({
     x,
     y,
     z

@@ -1,17 +1,22 @@
-.challenge-form fieldset {
-  padding: 0;
+.form-wrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+.form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form button {
+  background-color: rgb(26, 26, 26);
+  color: white;
+  font-size: 40px;
   border: 0;
-  margin-bottom: 10px;
-}
-
-.challenge-form input[type="text"] {
-  width: 35px;
-  line-height: 25px;
-  margin-bottom: 10px;
-}
-
-.challenge-form button {
-  line-height: 20px;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 15px;
 }

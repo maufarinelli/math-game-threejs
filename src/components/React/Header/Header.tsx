@@ -8,14 +8,13 @@ const Header = () => (
   <div className="header">
     <div>
       <p>
-        Aidez votre ami Fox à trouver le trésor de cette île. Répondez à la
-        question pour savoir où le trésor est caché.
+        Aidez votre ami Fox à trouver le trésor de cette île. Amenez-le à la
+        place où le trésor est caché et creusez.
       </p>
 
       <Challenge />
     </div>
     <div>
-      <Form />
       <Score />
     </div>
   </div>

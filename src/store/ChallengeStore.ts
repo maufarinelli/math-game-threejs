@@ -11,27 +11,56 @@ class ChallengeStore {
   @observable
   public isPristine: boolean = true;
 
+  @observable
+  public _initialNumber: number = 0;
+
+  @observable
+  public _operation: string = "";
+
+  @observable
+  public _numberToCalculate: number = 0;
+
+  constructor() {
+    this.setInitialNumber();
+    this.setOperation();
+    this.setNumberToCalculate();
+  }
+
+  public setInitialNumber() {
+    this._initialNumber = Math.floor(Math.random() * 100);
+  }
+
+  public setOperation() {
+    if (this._initialNumber >= 50) {
+      return (this._operation = operationsList[1]);
+    }
+
+    this._operation = operationsList[0];
+  }
+
+  public setNumberToCalculate() {
+    if (this._initialNumber >= 50) {
+      this._numberToCalculate = Math.floor(
+        Math.random() * (this._initialNumber - 1)
+      );
+    } else {
+      this._numberToCalculate = Math.floor(Math.random() * 50);
+    }
+  }
+
   @computed
   public get initialNumber() {
-    return Math.floor(Math.random() * 100);
+    return this._initialNumber;
   }
 
   @computed
   public get operation() {
-    if (this.initialNumber >= 50) {
-      return operationsList[1];
-    }
-
-    return operationsList[0];
+    return this._operation;
   }
 
   @computed
   public get numberToCalculate() {
-    if (this.initialNumber >= 50) {
-      return Math.floor(Math.random() * (this.initialNumber - 1));
-    } else {
-      return Math.floor(Math.random() * (this.initialNumber - 1)) + 50;
-    }
+    return this._numberToCalculate;
   }
 
   public add(a: number, b: number) {
@@ -60,6 +89,15 @@ class ChallengeStore {
   public setUserAswer(answer: string) {
     this.isPristine = false;
     this.userAnswer = parseInt(answer, 10);
+  }
+
+  @action
+  public reinitialize() {
+    this.userAnswer = 0;
+    this.isPristine = true;
+    this.setInitialNumber();
+    this.setOperation();
+    this.setNumberToCalculate();
   }
 }
 

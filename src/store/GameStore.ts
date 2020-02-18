@@ -2,12 +2,35 @@ import { Intersection, Group } from "three";
 import Character from "../components/3D/Character/Character";
 import ChallengeStore from "./ChallengeStore";
 import config from "../config";
+import { action, observable, computed, runInAction } from "mobx";
+import store from "./store";
 
 class GameStore {
   private selectedItem: Intersection | undefined;
   private character: Character | undefined;
 
-  constructor(private challengeStore: ChallengeStore) {}
+  @observable
+  public _score: number;
+
+  @observable
+  public _level: number;
+
+  @observable
+  public _phase: number;
+
+  @observable
+  public _showForm: boolean;
+
+  @observable
+  public _isLevelCompleted: boolean;
+
+  constructor(private challengeStore: ChallengeStore) {
+    this._score = 0;
+    this._level = 1;
+    this._phase = 1;
+    this._showForm = false;
+    this._isLevelCompleted = false;
+  }
 
   private highlightSelectedBox(intersection: Intersection, boxes: Group[]) {
     boxes.forEach(child => {
@@ -18,6 +41,7 @@ class GameStore {
     intersection.object.material.color.setHex(config.BOX_CONFIG.LIGHTER_COLOR);
   }
 
+  @action
   private setSelectedBox(intersection: Intersection) {
     this.selectedItem = intersection;
   }
@@ -41,6 +65,60 @@ class GameStore {
     this.challengeStore.setUserAswer(
       String(this.selectedItem?.object.userData.boxNumber)
     );
+
+    this.setScore(this.challengeStore.isRightAnswer);
+  }
+
+  // Score
+  @action
+  public setScore(isRighAnswer: boolean) {
+    isRighAnswer ? this._score++ : this._score--;
+
+    if (this._phase < 5) {
+      this._phase++;
+    } else {
+      this._isLevelCompleted = true;
+      this._phase = 1;
+      this._level++;
+    }
+
+    setTimeout(() => {
+      runInAction(() => {
+        this._showForm = true;
+      });
+    }, 500);
+  }
+
+  @computed
+  public get score() {
+    return this._score;
+  }
+
+  @computed
+  public get level() {
+    return this._level;
+  }
+
+  @computed
+  public get phase() {
+    return this._phase;
+  }
+
+  @computed
+  public get showForm() {
+    return this._showForm;
+  }
+
+  @computed
+  public get isLevelCompleted() {
+    return this._isLevelCompleted;
+  }
+
+  @action
+  public handleNextClick() {
+    this._showForm = false;
+    this.challengeStore.reinitialize();
+    this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
   }
 }
 

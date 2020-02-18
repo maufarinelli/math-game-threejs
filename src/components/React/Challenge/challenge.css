@@ -4,6 +4,6 @@
 
 .challenge-number,
 .challenge-math-sign {
-  display: block;
   font-weight: bold;
+  margin-right: 5px;
 }
