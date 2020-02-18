@@ -31,9 +31,15 @@ class GameStore {
   public _isGameCompleted: boolean;
 
   constructor(private challengeStore: ChallengeStore) {
-    this._score = 0;
-    this._level = 1;
-    this._phase = 1;
+    this._score = sessionStorage.getItem("game-score")
+      ? Number(sessionStorage.getItem("game-score"))
+      : 0;
+    this._level = sessionStorage.getItem("game-level")
+      ? Number(sessionStorage.getItem("game-level"))
+      : 1;
+    this._phase = sessionStorage.getItem("game-phase")
+      ? Number(sessionStorage.getItem("game-phase"))
+      : 1;
     this._showForm = false;
     this._isLevelCompleted = false;
     this._isLevelNotCompletedSuccessfully = false;
@@ -77,10 +83,16 @@ class GameStore {
     this.setScore(this.challengeStore.isRightAnswer);
   }
 
+  private setSessionStorage() {
+    sessionStorage.setItem("game-score", String(this._score));
+    sessionStorage.setItem("game-phase", String(this._phase));
+    sessionStorage.setItem("game-level", String(this._level));
+  }
+
   // Score
   @action
   public setScore(isRighAnswer: boolean) {
-    isRighAnswer ? this._score++ : this._score--;
+    if (isRighAnswer) this._score++;
 
     if (this._phase < 5) {
       this._phase++;
@@ -92,6 +104,7 @@ class GameStore {
     ) {
       this._isLevelCompleted = true;
       this._isLevelNotCompletedSuccessfully = false;
+      this._score = 0;
       this._phase = 1;
       this._level++;
     } else if (
@@ -100,10 +113,13 @@ class GameStore {
     ) {
       this._isLevelCompleted = true;
       this._isLevelNotCompletedSuccessfully = true;
+      this._score = 0;
       this._phase = 1;
     } else if (this._level === 3 && this._score >= 5) {
       this._isGameCompleted = true;
     }
+
+    this.setSessionStorage();
 
     setTimeout(() => {
       runInAction(() => {
@@ -158,11 +174,18 @@ class GameStore {
   public handleRestartClick() {
     this._showForm = false;
     this._isLevelCompleted = false;
+    this._isLevelNotCompletedSuccessfully = false;
+    this._isGameCompleted = false;
+
     this._score = 0;
     this._level = 1;
     this._phase = 1;
     this.challengeStore.reinitialize();
     this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
+
+    sessionStorage.setItem("game-score", String(0));
+    sessionStorage.setItem("game-phase", String(1));
+    sessionStorage.setItem("game-level", String(1));
   }
 }
 

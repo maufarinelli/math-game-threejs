@@ -11,7 +11,7 @@ const Form: React.FC = observer(() => {
     let howMany = 5;
 
     if (gameStore.level === 1) howMany = 3;
-    if (gameStore.level === 2) howMany = 5;
+    if (gameStore.level === 2) howMany = 4;
 
     return `Niveau ${gameStore.level}. Vous devez avoir au moins ${howMany} points pour passer au prochain niveau`;
   };
@@ -38,8 +38,9 @@ const Form: React.FC = observer(() => {
   return (
     <div className="form-wrapper">
       <form className="form">
-        <p>{getGameDescription()}</p>
-        {!gameStore.isLevelCompleted &&
+        <p>{!gameStore.isGameCompleted && getGameDescription()}</p>
+        {!gameStore.isGameCompleted &&
+          !gameStore.isLevelCompleted &&
           !gameStore.isLevelNotCompletedSuccessfully && (
             <button onClick={handleNextClick}>Next Phase >></button>
           )}
@@ -53,7 +54,7 @@ const Form: React.FC = observer(() => {
           )}
 
         {gameStore.isGameCompleted && (
-          <h2>FÉLICITATION! VOUS AVEZ RENCONTRÉ TOUS LES TRÉSORS.</h2>
+          <p>FÉLICITATION! Vous avez rencontré tous les trésors.</p>
         )}
       </form>
       <form className="form-restart">
