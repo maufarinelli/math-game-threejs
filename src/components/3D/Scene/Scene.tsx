@@ -4,12 +4,14 @@ import useScene from "./useScene";
 import config from "../../../config";
 import { observer } from "mobx-react";
 import Character from "../Character/Character";
+import Coin from "../Coin/Coin";
 
 interface IScene {
   items: Mesh[];
   groups?: Group[];
   light: Light;
   Character: typeof Character;
+  Coin: typeof Coin;
 }
 
 const Scene: React.FC<IScene> = observer(
@@ -22,6 +24,7 @@ const Scene: React.FC<IScene> = observer(
       addItemsToScene,
       addGroupsToScene,
       addCharacterToScene,
+      addCoinToScene,
       addOrbitControls,
       onMouseDown,
       onTouchStart,
@@ -65,6 +68,10 @@ const Scene: React.FC<IScene> = observer(
 
     if (Character) {
       addCharacterToScene(Character);
+    }
+
+    if (Coin) {
+      addCoinToScene(Coin);
     }
 
     // addOrbitControls();

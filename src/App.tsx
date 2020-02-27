@@ -9,17 +9,25 @@ import getDirectionalLight from "./components/3D/DirectionalLight/DirectionalLig
 import Form from "./components/React/Form/Form";
 import StoreContext from "./store/context";
 import { observer } from "mobx-react";
+import Coin from "./components/3D/Coin/Coin";
 
 const App: React.FC = observer(() => {
   const boxGrid = BoxGrid(10);
   const plane = Plane();
   const light = getDirectionalLight();
   const cat = Character;
+  const coin = Coin;
 
   return (
     <div className="App">
       <Header />
-      <Scene items={[plane]} Character={cat} groups={[boxGrid]} light={light} />
+      <Scene
+        items={[plane]}
+        Character={cat}
+        Coin={coin}
+        groups={[boxGrid]}
+        light={light}
+      />
       <Form />
     </div>
   );

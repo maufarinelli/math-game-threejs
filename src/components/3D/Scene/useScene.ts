@@ -17,6 +17,7 @@ import config from "../../../config";
 import Character from "../Character/Character";
 import * as dat from "dat.gui";
 import GameStore from "../../../store/GameStore";
+import Coin from "../Coin/Coin";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -45,6 +46,7 @@ const useScene = ({
   let itemsOfScene: Mesh[] = [];
   let sceneGroups: Group[] = [];
   let character: Character;
+  let coin: Coin;
   let controls: any;
   const mouse = new Vector2();
   const raycaster = new Raycaster();
@@ -122,6 +124,10 @@ const useScene = ({
     gameStore.setCharacter(character);
   };
 
+  const addCoinToScene = (Coin: any) => {
+    coin = new Coin(scene);
+  };
+
   const addOrbitControls = () => {
     controls = new OrbitControls(camera, renderer.domElement);
   };
@@ -194,6 +200,7 @@ const useScene = ({
     addItemsToScene,
     addGroupsToScene,
     addCharacterToScene,
+    addCoinToScene,
     addOrbitControls,
     onMouseDown,
     onTouchStart,

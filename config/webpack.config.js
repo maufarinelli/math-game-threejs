@@ -346,6 +346,7 @@ module.exports = function(webpackEnv) {
           include: paths.appSrc
         },
         { test: /\.obj$/, loader: "url-loader", include: paths.obj },
+        { test: /\.fbx$/, loader: "url-loader", include: paths.fbx },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
