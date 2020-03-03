@@ -48,11 +48,17 @@ class GameStore {
 
   private highlightSelectedBox(intersection: Intersection, boxes: Group[]) {
     boxes.forEach(child => {
-      // @ts-ignore
-      child.material.color.set(config.BOX_CONFIG.COLOR);
+      if (!child.userData.isHole) {
+        // @ts-ignore
+        child.material.color.set(config.BOX_CONFIG.COLOR);
+      }
     });
-    // @ts-ignore
-    intersection.object.material.color.setHex(config.BOX_CONFIG.LIGHTER_COLOR);
+    if (!intersection.object.userData.isHole) {
+      // @ts-ignore
+      intersection.object.material.color.setHex(
+        config.BOX_CONFIG.LIGHTER_COLOR
+      );
+    }
   }
 
   @action
@@ -67,6 +73,10 @@ class GameStore {
   public selectBoxAction(intersection: Intersection, boxes: Group[]) {
     this.highlightSelectedBox(intersection, boxes);
     this.setSelectedBox(intersection);
+    if (intersection.object.userData.isHole) {
+      this.setScoreDown();
+      this.dispatchCharacterWrongMoveAction();
+    }
   }
 
   public dispatchCharacterJumpAction() {
@@ -83,6 +93,10 @@ class GameStore {
     this.setScore(this.challengeStore.isRightAnswer);
   }
 
+  public dispatchCharacterWrongMoveAction() {
+    this.character?.wrongMoveAction();
+  }
+
   private setSessionStorage() {
     sessionStorage.setItem("game-score", String(this._score));
     sessionStorage.setItem("game-phase", String(this._phase));
@@ -92,15 +106,15 @@ class GameStore {
   // Score
   @action
   public setScore(isRighAnswer: boolean) {
-    if (isRighAnswer) this._score++;
+    if (isRighAnswer) this._score = this._score + 3;
 
     if (this._phase < 5) {
       this._phase++;
       this._isLevelCompleted = false;
       this._isLevelNotCompletedSuccessfully = false;
     } else if (
-      (this._level === 1 && this._score >= 3) ||
-      (this._level === 2 && this._score >= 4)
+      (this._level === 1 && this._score >= 7) ||
+      (this._level === 2 && this._score >= 10)
     ) {
       this._isLevelCompleted = true;
       this._isLevelNotCompletedSuccessfully = false;
@@ -108,8 +122,8 @@ class GameStore {
       this._phase = 1;
       this._level++;
     } else if (
-      (this._level === 1 && this._score < 3) ||
-      (this._level === 2 && this._score < 4)
+      (this._level === 1 && this._score < 7) ||
+      (this._level === 2 && this._score < 10)
     ) {
       this._isLevelCompleted = true;
       this._isLevelNotCompletedSuccessfully = true;
@@ -126,6 +140,11 @@ class GameStore {
         this._showForm = true;
       });
     }, 500);
+  }
+
+  @action
+  public setScoreDown() {
+    this._score--;
   }
 
   @computed

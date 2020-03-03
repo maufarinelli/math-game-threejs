@@ -2,40 +2,78 @@ import { Group } from "three";
 import Box from "./Box";
 import Text from "../Text/Text";
 import config from "../../../config";
+import { useContext } from "react";
+import StoreContext from "../../../store/context";
 
-const BoxGrid = (amount: number) => {
-  const group = new Group();
-  const separator = -config.BOX_CONFIG.SEPARATOR;
+const getHolesObstaclesNumbers = (level: number, rightAnswer: number) => {
+  const obstaclesQty = level * 5;
+  const obstacleNumbersList = [];
 
-  for (let i = 0; i < amount; i++) {
-    const obj = Box();
-
-    const text = Text(String(i));
-
-    obj.add(text);
-    obj.userData.boxNumber = i;
-
-    obj.position.x = i === 0 ? i : i * separator;
-    obj.position.y = (obj.geometry as any).parameters.height / 2;
-    group.add(obj);
-
-    for (let j = 1; j < amount; j++) {
-      const obj = Box();
-
-      const text = Text(String(j * 10 + i));
-
-      obj.add(text);
-      obj.userData.boxNumber = j * 10 + i;
-
-      obj.position.x = i * separator;
-      obj.position.y = (obj.geometry as any).parameters.height / 2;
-      obj.position.z = j * separator;
-      group.add(obj);
+  let i = 0;
+  while (i < obstaclesQty) {
+    const obstacleBoxNumber = Math.floor(Math.random() * 100);
+    if (obstacleBoxNumber !== rightAnswer) {
+      obstacleNumbersList.push(obstacleBoxNumber);
     }
+    i++;
   }
 
-  // group.position.x = -(separator * (amount - 1)) / 2;
-  // group.position.z = -(separator * (amount - 1)) / 2;
+  return obstacleNumbersList;
+};
+
+const getBoxInstance = (
+  rowPosition: number,
+  holesNumbersList: number[],
+  isBoxInZ?: boolean,
+  columnPosition?: number
+) => {
+  const box = Box();
+  const separator = -config.BOX_CONFIG.SEPARATOR;
+  const boxNumber =
+    isBoxInZ && columnPosition
+      ? columnPosition * 10 + rowPosition
+      : rowPosition;
+  const text = Text(String(boxNumber));
+
+  box.add(text);
+  box.userData.boxNumber = boxNumber;
+
+  if (holesNumbersList.includes(boxNumber)) {
+    box.userData.isHole = true;
+    // @ts-ignore
+    box.material.color.setHex(config.BOX_CONFIG.HOLE_COLOR);
+    // @ts-ignore
+    text.material.color.setHex(config.BOX_CONFIG.HOLE_TEXT_COLOR);
+  }
+
+  // positioning
+  box.position.y = (box.geometry as any).parameters.height / 2;
+  box.position.x =
+    !isBoxInZ && rowPosition === 0 ? rowPosition : rowPosition * separator;
+  if (isBoxInZ && columnPosition) {
+    box.position.z = columnPosition * separator;
+  }
+
+  return box;
+};
+
+const BoxGrid = (amount: number) => {
+  const { gameStore, challengeStore } = useContext(StoreContext);
+  const group = new Group();
+  const holesNumbersList = getHolesObstaclesNumbers(
+    gameStore.level,
+    challengeStore.rightAnswer
+  );
+
+  for (let i = 0; i < amount; i++) {
+    const boxInstance = getBoxInstance(i, holesNumbersList);
+    group.add(boxInstance);
+
+    for (let j = 1; j < amount; j++) {
+      const boxInstance = getBoxInstance(i, holesNumbersList, true, j);
+      group.add(boxInstance);
+    }
+  }
 
   return group;
 };

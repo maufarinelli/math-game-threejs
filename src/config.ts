@@ -48,6 +48,8 @@ export default {
     DEPTH: 1,
     COLOR: "#6AA843",
     LIGHTER_COLOR: "0xA5CA8E",
+    HOLE_COLOR: "0x000000",
+    HOLE_TEXT_COLOR: "0xFFFFFF",
     SEPARATOR: 1.5
   },
 

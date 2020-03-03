@@ -201,6 +201,39 @@ class Character {
       this.jumpDown();
     }
   }
+
+  public wrongMoveAction() {
+    let milisecondsToStop = 0;
+
+    const wrongMoveAnimationCallback = () => {
+      const x =
+        milisecondsToStop % 2 === 0
+          ? Math.random() * 0.5
+          : Math.random() * -0.5;
+      const y =
+        milisecondsToStop % 2 === 0
+          ? Math.random() * 0.5
+          : Math.random() * -0.5;
+      const z =
+        milisecondsToStop % 2 === 0
+          ? Math.random() * 0.5
+          : Math.random() * -0.5;
+
+      this.character.rotation.x = x;
+      this.character.rotation.z = z;
+
+      milisecondsToStop++;
+      if (milisecondsToStop >= 10) {
+        cancelAnimationFrame(wrongMoveAnimation);
+        this.character.rotation.x = 0;
+        this.character.rotation.z = 0;
+      } else {
+        wrongMoveAnimation = requestAnimationFrame(wrongMoveAnimationCallback);
+      }
+    };
+
+    let wrongMoveAnimation = requestAnimationFrame(wrongMoveAnimationCallback);
+  }
 }
 
 export default Character;

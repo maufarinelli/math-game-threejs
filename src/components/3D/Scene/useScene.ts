@@ -16,7 +16,6 @@ import { useContext } from "react";
 import config from "../../../config";
 import Character from "../Character/Character";
 import * as dat from "dat.gui";
-import GameStore from "../../../store/GameStore";
 
 interface ISceneConfig {
   WIDTH: number;
