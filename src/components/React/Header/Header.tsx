@@ -1,6 +1,5 @@
 import React from "react";
 import "./header.css";
-import Form from "../Form/Form";
 import Challenge from "../Challenge/Challenge";
 import Score from "../Score/Score";
 

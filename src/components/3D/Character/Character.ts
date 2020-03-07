@@ -210,10 +210,6 @@ class Character {
         milisecondsToStop % 2 === 0
           ? Math.random() * 0.5
           : Math.random() * -0.5;
-      const y =
-        milisecondsToStop % 2 === 0
-          ? Math.random() * 0.5
-          : Math.random() * -0.5;
       const z =
         milisecondsToStop % 2 === 0
           ? Math.random() * 0.5

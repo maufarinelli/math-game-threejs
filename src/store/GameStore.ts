@@ -3,7 +3,6 @@ import Character from "../components/3D/Character/Character";
 import ChallengeStore from "./ChallengeStore";
 import config from "../config";
 import { action, observable, computed, runInAction } from "mobx";
-import store from "./store";
 
 class GameStore {
   private selectedItem: Intersection | undefined;
@@ -68,6 +67,10 @@ class GameStore {
 
   public setCharacter(c: Character) {
     this.character = c;
+  }
+
+  public getCharacter() {
+    return this.character;
   }
 
   public selectBoxAction(intersection: Intersection, boxes: Group[]) {

@@ -117,8 +117,12 @@ const useScene = ({
   };
 
   const addCharacterToScene = (Character: any) => {
-    character = new Character(scene);
-    gameStore.setCharacter(character);
+    character = gameStore.getCharacter();
+
+    if (!character) {
+      character = new Character(scene);
+      gameStore.setCharacter(character);
+    }
   };
 
   const addOrbitControls = () => {
