@@ -3,10 +3,14 @@ import Character from "../components/3D/Character/Character";
 import ChallengeStore from "./ChallengeStore";
 import config from "../config";
 import { action, observable, computed, runInAction } from "mobx";
+import BoxGrid from "../components/3D/Box/BoxGrid";
+import Spider from "../components/3D/Spider/Spider";
 
 class GameStore {
   private selectedItem: Intersection | undefined;
   private character: Character | undefined;
+  private boxGrid: BoxGrid | undefined;
+  private spiders: Spider[] = [];
 
   @observable
   public _score: number;
@@ -69,6 +73,14 @@ class GameStore {
     this.character = c;
   }
 
+  public setBoxGrid(b: BoxGrid) {
+    this.boxGrid = b;
+  }
+
+  public setSpiders(spider: Spider) {
+    this.spiders.push(spider);
+  }
+
   public getCharacter() {
     return this.character;
   }
@@ -76,7 +88,10 @@ class GameStore {
   public selectBoxAction(intersection: Intersection, boxes: Group[]) {
     this.highlightSelectedBox(intersection, boxes);
     this.setSelectedBox(intersection);
-    if (intersection.object.userData.isHole) {
+    if (
+      intersection.object.userData.isHole ||
+      intersection.object.userData.hasSpider
+    ) {
       this.setScoreDown();
       this.dispatchCharacterWrongMoveAction();
     }
@@ -132,7 +147,7 @@ class GameStore {
       this._isLevelNotCompletedSuccessfully = true;
       this._score = 0;
       this._phase = 1;
-    } else if (this._level === 3 && this._score >= 5) {
+    } else if (this._level === 3 && this._score >= 13) {
       this._isGameCompleted = true;
     }
 
@@ -185,11 +200,22 @@ class GameStore {
     return this._isGameCompleted;
   }
 
+  public updateSpidersPosition() {
+    const boxGrid = this.boxGrid?.getBoxGrid().children;
+    const boxWithSpiders = boxGrid?.filter(box => box.userData.hasSpider);
+
+    boxWithSpiders?.forEach((box, index) => {
+      this.spiders[index].changeSpiderPosition(box.position);
+    });
+  }
+
   @action
   public handleNextClick() {
     this._showForm = false;
     this.challengeStore.reinitialize();
     this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
+    this.boxGrid?.updateBoxGrid(this.level, this.challengeStore.rightAnswer);
+    this.updateSpidersPosition();
   }
 
   @action
@@ -204,6 +230,8 @@ class GameStore {
     this._phase = 1;
     this.challengeStore.reinitialize();
     this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
+    this.boxGrid?.updateBoxGrid(this.level, this.challengeStore.rightAnswer);
+    this.updateSpidersPosition();
 
     sessionStorage.setItem("game-score", String(0));
     sessionStorage.setItem("game-phase", String(1));

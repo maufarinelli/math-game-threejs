@@ -7,10 +7,9 @@ import Plane from "./components/3D/Plane/Plane";
 import Character from "./components/3D/Character/Character";
 import getDirectionalLight from "./components/3D/DirectionalLight/DirectionalLight";
 import Form from "./components/React/Form/Form";
-import { observer } from "mobx-react";
+// import { observer } from "mobx-react";
 
-const App: React.FC = observer(() => {
-  const boxGrid = BoxGrid(10);
+const App: React.FC = () => {
   const plane = Plane();
   const light = getDirectionalLight();
   const cat = Character;
@@ -18,10 +17,10 @@ const App: React.FC = observer(() => {
   return (
     <div className="App">
       <Header />
-      <Scene items={[plane]} Character={cat} groups={[boxGrid]} light={light} />
+      <Scene items={[plane]} Character={cat} light={light} />
       <Form />
     </div>
   );
-});
+};
 
 export default App;

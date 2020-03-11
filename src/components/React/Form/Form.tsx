@@ -8,10 +8,10 @@ const Form: React.FC = observer(() => {
   const { gameStore } = useContext(StoreContext);
 
   const getGameDescription = () => {
-    let howMany = 5;
+    let howMany = 13;
 
-    if (gameStore.level === 1) howMany = 3;
-    if (gameStore.level === 2) howMany = 4;
+    if (gameStore.level === 1) howMany = 7;
+    if (gameStore.level === 2) howMany = 10;
 
     return `Niveau ${gameStore.level}. Vous devez avoir au moins ${howMany} points pour passer au prochain niveau`;
   };

@@ -46,7 +46,7 @@ export default {
     WIDTH: 1,
     HEIGHT: 0.0001,
     DEPTH: 1,
-    COLOR: "#6AA843",
+    COLOR: 0x6aa843,
     LIGHTER_COLOR: "0xA5CA8E",
     HOLE_COLOR: "0x000000",
     HOLE_TEXT_COLOR: "0xFFFFFF",

@@ -16,6 +16,8 @@ import { useContext } from "react";
 import config from "../../../config";
 import Character from "../Character/Character";
 import * as dat from "dat.gui";
+import BoxGrid from "../Box/BoxGrid";
+import Spider from "../Spider/Spider";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -42,7 +44,7 @@ const useScene = ({
   let scene: Scene;
   let sceneLight: Light;
   let itemsOfScene: Mesh[] = [];
-  let sceneGroups: Group[] = [];
+  let boxGrid: Group;
   let character: Character;
   let controls: any;
   const mouse = new Vector2();
@@ -74,9 +76,11 @@ const useScene = ({
   const setScene = () => (scene = new Scene());
 
   const setAllScene = () => {
-    setRenderer();
-    setCamera();
-    setScene();
+    if (!renderer) {
+      setRenderer();
+      setCamera();
+      setScene();
+    }
   };
 
   const setCanvas = (container: React.RefObject<HTMLDivElement>) => {
@@ -109,10 +113,28 @@ const useScene = ({
     });
   };
 
-  const addGroupsToScene = (groups: Group[]) => {
-    groups.forEach(group => {
-      sceneGroups.push(group);
-      scene.add(group);
+  const addBoxGridToScene = () => {
+    const boxGridInstance = new BoxGrid(
+      10,
+      gameStore.level,
+      challengeStore.rightAnswer
+    );
+    boxGrid = boxGridInstance.getBoxGrid();
+    scene.add(boxGrid);
+
+    gameStore.setBoxGrid(boxGridInstance);
+  };
+
+  const addSpidersToScene = () => {
+    boxGrid.children.forEach(box => {
+      if (box.userData.hasSpider) {
+        const position = {
+          x: box.position.x,
+          z: box.position.z
+        };
+        const spiderInstance = new Spider(scene, position);
+        gameStore.setSpiders(spiderInstance);
+      }
     });
   };
 
@@ -163,10 +185,10 @@ const useScene = ({
 
   const raycasterAction = (eventType: string) => {
     raycaster.setFromCamera(mouse, camera);
-    const intersection = raycaster.intersectObjects(sceneGroups[0].children);
+    const intersection = raycaster.intersectObjects(boxGrid.children);
 
     if (intersection.length > 0) {
-      gameStore.selectBoxAction(intersection[0], sceneGroups[0].children);
+      gameStore.selectBoxAction(intersection[0], boxGrid.children);
 
       if (eventType !== "dblclick") {
         gameStore.dispatchCharacterJumpAction();
@@ -195,8 +217,9 @@ const useScene = ({
     getRenderer,
     addLightsToScene,
     addItemsToScene,
-    addGroupsToScene,
+    addBoxGridToScene,
     addCharacterToScene,
+    addSpidersToScene,
     addOrbitControls,
     onMouseDown,
     onTouchStart,

@@ -2,78 +2,75 @@ import React, { useEffect } from "react";
 import { Light, Mesh, Group } from "three";
 import useScene from "./useScene";
 import config from "../../../config";
-import { observer } from "mobx-react";
+// import { observer } from "mobx-react";
 import Character from "../Character/Character";
 
 interface IScene {
   items: Mesh[];
-  groups?: Group[];
   light: Light;
   Character: typeof Character;
 }
 
-const Scene: React.FC<IScene> = observer(
-  ({ items, light, groups, Character }) => {
-    const {
-      setAllScene,
-      setCanvas,
-      getRenderer,
-      addLightsToScene,
-      addItemsToScene,
-      addGroupsToScene,
-      addCharacterToScene,
-      addOrbitControls,
-      onMouseDown,
-      onTouchStart,
-      onDoubleClick,
-      render
-    } = useScene(config.SCENE_CONFIG);
+const Scene: React.FC<IScene> = ({ items, light, Character }) => {
+  const {
+    setAllScene,
+    setCanvas,
+    getRenderer,
+    addLightsToScene,
+    addItemsToScene,
+    addBoxGridToScene,
+    addCharacterToScene,
+    addSpidersToScene,
+    addOrbitControls,
+    onMouseDown,
+    onTouchStart,
+    onDoubleClick,
+    render
+  } = useScene(config.SCENE_CONFIG);
 
-    // Get the DOM element to attach to
-    const container: React.RefObject<HTMLDivElement> = React.createRef();
+  // Get the DOM element to attach to
+  const container: React.RefObject<HTMLDivElement> = React.createRef();
 
-    // Create a WebGL renderer, camera
-    // and a scene
-    setAllScene();
+  // Create a WebGL renderer, camera
+  // and a scene
+  setAllScene();
 
-    const renderer = getRenderer();
+  const renderer = getRenderer();
 
-    useEffect(() => {
-      // Attach the renderer-supplied
-      // DOM element.
-      if (container.current) {
-        container.current.appendChild(renderer.domElement);
-        // @ts-ignore
-        container.current.addEventListener("mousedown", onMouseDown, false);
-        container.current.addEventListener("touchstart", onTouchStart, false);
-        container.current.addEventListener("dblclick", onDoubleClick, false);
+  useEffect(() => {
+    // Attach the renderer-supplied
+    // DOM element.
+    if (container.current) {
+      container.current.appendChild(renderer.domElement);
+      // @ts-ignore
+      container.current.addEventListener("mousedown", onMouseDown, false);
+      container.current.addEventListener("touchstart", onTouchStart, false);
+      container.current.addEventListener("dblclick", onDoubleClick, false);
 
-        setCanvas(container);
-      }
-    }, [container, renderer]);
-
-    // create a point light and add to the scene
-    // addPointLightsToScene(config.POINT_LIGHT);
-    addLightsToScene(light);
-
-    // add Items to the scene
-    addItemsToScene(items);
-
-    if (groups) {
-      addGroupsToScene(groups);
+      setCanvas(container);
     }
+  }, []);
 
-    if (Character) {
-      addCharacterToScene(Character);
-    }
+  // create a point light and add to the scene
+  // addPointLightsToScene(config.POINT_LIGHT);
+  addLightsToScene(light);
 
-    // addOrbitControls();
+  // add Items to the scene
+  addItemsToScene(items);
 
-    // Draw!
-    render();
+  addBoxGridToScene();
+  addSpidersToScene();
 
-    return <div ref={container} />;
+  if (Character) {
+    addCharacterToScene(Character);
   }
-);
+
+  // addOrbitControls();
+
+  // Draw!
+  render();
+
+  return <div ref={container} />;
+};
 
 export default Scene;

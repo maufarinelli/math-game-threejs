@@ -15,7 +15,7 @@ class Character {
   public isDiggingUpFinished: boolean = false;
 
   constructor(scene: THREE.Scene) {
-    this.loadCatIntoScene(scene);
+    this.loadIntoScene(scene);
   }
 
   public setCharacter(character: THREE.Mesh) {
@@ -35,7 +35,7 @@ class Character {
     return { colorMap, normalMap, aoMap, specularMap };
   }
 
-  private loadCatIntoScene(scene: THREE.Scene) {
+  private loadIntoScene(scene: THREE.Scene) {
     const threeInstance = THREE;
     OBJLoader(threeInstance);
 
