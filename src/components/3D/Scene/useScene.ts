@@ -205,6 +205,7 @@ const useScene = ({
 
     // controls.update();
     character.digAnimation();
+    gameStore.animateSpider();
 
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
 

@@ -81,6 +81,10 @@ class GameStore {
     this.spiders.push(spider);
   }
 
+  public animateSpider() {
+    this.spiders.forEach(spider => spider.spiderAnimation());
+  }
+
   public getCharacter() {
     return this.character;
   }

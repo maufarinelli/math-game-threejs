@@ -2,8 +2,8 @@ import * as OBJLoader from "three-obj-loader";
 import * as THREE from "three";
 
 export interface IPosition {
-  x?: number;
-  z?: number;
+  x: number;
+  z: number;
 }
 
 class Spider {
@@ -48,7 +48,7 @@ class Spider {
       object.scale.z = 0.008;
 
       this.changeSpiderPosition(position);
-      this.changeSpiderRotation({ y: Math.random() });
+      this.changeSpiderRotation({ y: Math.random() * 2 - 1 });
 
       scene.add(object);
     });
@@ -80,6 +80,20 @@ class Spider {
     if (x || x === 0) this.spider.rotation.x = x;
     if (y || y === 0) this.spider.rotation.y = y;
     if (z || z === 0) this.spider.rotation.z = z;
+  }
+
+  public clock: THREE.Clock = new THREE.Clock();
+  public time = 0;
+  public delta = 0;
+  public spiderAnimation() {
+    this.delta = this.clock.getDelta();
+    this.time += this.delta;
+    this.spider.position.x += Math.sin(this.time * 23) * 0.002;
+
+    this.spider.rotation.x += Math.sin(this.time * 27) * 0.005;
+    this.spider.rotation.z += Math.sin(this.time * 27) * 0.01;
+
+    this.spider.rotation.y += 0.003;
   }
 }
 
