@@ -1,6 +1,3 @@
-First Math Game for kids, created with ThreeJS and React
+# Math Game
 
-Missing:
-
-- Add coin animation
-- add spiders animation
+## My First Math Game for kids, created with ThreeJS and React
