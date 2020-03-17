@@ -18,6 +18,7 @@ import Character from "../Character/Character";
 import * as dat from "dat.gui";
 import BoxGrid from "../Box/BoxGrid";
 import Spider from "../Spider/Spider";
+import Coin from "../Coin/Coin";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -138,6 +139,11 @@ const useScene = ({
     });
   };
 
+  const addCoinToScene = () => {
+    const coinInstance = new Coin(scene);
+    gameStore.setCoin(coinInstance);
+  };
+
   const addCharacterToScene = (Character: any) => {
     character = gameStore.getCharacter();
 
@@ -206,6 +212,7 @@ const useScene = ({
     // controls.update();
     character.digAnimation();
     gameStore.animateSpider();
+    gameStore.animateCoin();
 
     if (sceneLight.position.x < 5) sceneLight.position.x += 0.001;
 
@@ -221,6 +228,7 @@ const useScene = ({
     addBoxGridToScene,
     addCharacterToScene,
     addSpidersToScene,
+    addCoinToScene,
     addOrbitControls,
     onMouseDown,
     onTouchStart,

@@ -5,12 +5,14 @@ import config from "../config";
 import { action, observable, computed, runInAction } from "mobx";
 import BoxGrid from "../components/3D/Box/BoxGrid";
 import Spider from "../components/3D/Spider/Spider";
+import Coin from "../components/3D/Coin/Coin";
 
 class GameStore {
   private selectedItem: Intersection | undefined;
   private character: Character | undefined;
   private boxGrid: BoxGrid | undefined;
   private spiders: Spider[] = [];
+  private coin: Coin | undefined;
 
   @observable
   public _score: number;
@@ -85,6 +87,14 @@ class GameStore {
     this.spiders.forEach(spider => spider.spiderAnimation());
   }
 
+  public setCoin(coin: Coin) {
+    this.coin = coin;
+  }
+
+  public animateCoin() {
+    this.coin?.coinAnimation();
+  }
+
   public getCharacter() {
     return this.character;
   }
@@ -128,7 +138,11 @@ class GameStore {
   // Score
   @action
   public setScore(isRighAnswer: boolean) {
-    if (isRighAnswer) this._score = this._score + 3;
+    if (isRighAnswer) {
+      this._score = this._score + 3;
+      const position = this.character?.getPosition();
+      if (position) this.coin?.animate(position);
+    }
 
     if (this._phase < 5) {
       this._phase++;

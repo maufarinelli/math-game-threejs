@@ -21,6 +21,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     addBoxGridToScene,
     addCharacterToScene,
     addSpidersToScene,
+    addCoinToScene,
     addOrbitControls,
     onMouseDown,
     onTouchStart,
@@ -60,6 +61,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
 
   addBoxGridToScene();
   addSpidersToScene();
+  addCoinToScene();
 
   if (Character) {
     addCharacterToScene(Character);

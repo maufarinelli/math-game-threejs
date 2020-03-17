@@ -7,6 +7,11 @@ export interface ICharacter {
   character: THREE.Mesh;
 }
 
+export interface IPosition {
+  x: number;
+  z: number;
+}
+
 class Character {
   public character: THREE.Mesh = new THREE.Mesh();
 
@@ -81,6 +86,12 @@ class Character {
     if (x || x === 0) this.character.position.x = x;
     if (y || y === 0) this.character.position.y = y;
     if (z || z === 0) this.character.position.z = z;
+  }
+
+  public getPosition(): IPosition {
+    const { x, z } = this.character.position;
+
+    return { x, z };
   }
 
   public changeCharacteRotation({
