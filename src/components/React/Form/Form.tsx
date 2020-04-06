@@ -13,7 +13,25 @@ const Form: React.FC = observer(() => {
     if (gameStore.level === 1) howMany = 7;
     if (gameStore.level === 2) howMany = 10;
 
-    return `Niveau ${gameStore.level}. Vous devez avoir au moins ${howMany} points pour passer au prochain niveau`;
+    return (
+      <>
+        <h3>Niveau {gameStore.level}. </h3>
+        <p className="story">
+          Vous devez avoir au moins {howMany} points pour passer au prochain
+          niveau. <b>Vous avez {gameStore.score}!</b>
+        </p>
+        <p className="story">Chaque tresor trouvé vaut 3 points.</p>
+        <p className="story last">
+          ATTENTION! Si vous tombez sur en trou ou une araignée, vous perdrez 1
+          point.
+        </p>
+      </>
+    );
+  };
+
+  const handleStartClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    gameStore.handleStartClick();
   };
 
   const handleRestartClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,26 +53,71 @@ const Form: React.FC = observer(() => {
 
   if (!gameStore.showForm) return null;
 
-  return (
+  return gameStore.startingNewGame ? (
+    <div className="form-wrapper">
+      <img className="pirate-img" src="./pirate-math.png" alt="" />
+      <form className="form">
+        <h1>Le Pirate Mathématicien</h1>
+        <p className="story">
+          Un pirate avait caché tous les monnais de son trésor sur des îles
+          differentes. Notre ami Fox à trouver des cartes avec des indications
+          où ils sont cachés.
+        </p>
+        <p className="story">
+          Cépendant, ces cartes ont des indications mystérieuses, telles que
+          l'addition et la soustraction de nombres.
+        </p>
+        <p className="story">
+          Aidez Fox à résoudre ces mystères et à trouver tout ce trésor caché.
+        </p>
+        <hr />
+        <h3>Comment jouer: </h3>
+        <ul>
+          <li>
+            Vous devez <b>Cliquer</b> sur <b>chaque carré</b> adjacent à sa
+            position, pour que le personnage se déplace.
+          </li>
+          <li>
+            Dès que vous atteignez <b>le carré où ce trouve le résultat</b> de
+            votre calcul <b>double-cliquez</b> (
+            <i>ou touchez longtemps pour ceux qui jouent sur une tablette</i>)
+            pour creuser et trouver la pièce cachée.
+          </li>
+        </ul>
+      </form>
+      <Overlay />
+      <form className="form-restart">
+        <button onClick={handleStartClick}>Commencer >></button>
+      </form>
+    </div>
+  ) : (
     <div className="form-wrapper">
       <form className="form">
-        <p>{!gameStore.isGameCompleted && getGameDescription()}</p>
+        {!gameStore.isGameCompleted && getGameDescription()}
         {!gameStore.isGameCompleted &&
           !gameStore.isLevelCompleted &&
           !gameStore.isLevelNotCompletedSuccessfully && (
-            <button onClick={handleNextClick}>Next Phase >></button>
+            <button onClick={handleNextClick}>Phase suivante >></button>
           )}
         {gameStore.isLevelCompleted &&
           !gameStore.isLevelNotCompletedSuccessfully && (
-            <button onClick={handleNextClick}>Next Level >></button>
+            <button onClick={handleNextClick}>Niveau suivant >></button>
           )}
         {gameStore.isLevelCompleted &&
           gameStore.isLevelNotCompletedSuccessfully && (
-            <button onClick={handleRetryLevelClick}>Retry Same Level >></button>
+            <button onClick={handleRetryLevelClick}>
+              Réessayer le même niveau >>
+            </button>
           )}
 
         {gameStore.isGameCompleted && (
-          <p>FÉLICITATION! Vous avez rencontré tous les trésors.</p>
+          <>
+            <h3>FÉLICITATION! Vous avez rencontré tous les trésors.</h3>
+            <div className="winner-images">
+              <img className="treasure" src="./treasure.png" />
+              <img className="winner-fox" src="./winner-fox.png" />
+            </div>
+          </>
         )}
       </form>
       <form className="form-restart">

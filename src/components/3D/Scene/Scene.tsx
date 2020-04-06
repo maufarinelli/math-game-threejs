@@ -26,7 +26,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     onMouseDown,
     onTouchStart,
     onDoubleClick,
-    render
+    render,
   } = useScene(config.SCENE_CONFIG);
 
   // Get the DOM element to attach to
@@ -48,6 +48,12 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
       container.current.addEventListener("touchstart", onTouchStart, false);
       container.current.addEventListener("dblclick", onDoubleClick, false);
 
+      renderer.domElement.requestFullscreen().catch((err) => {
+        console.log(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
+      });
+
       setCanvas(container);
     }
   }, []);
@@ -67,7 +73,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     addCharacterToScene(Character);
   }
 
-  // addOrbitControls();
+  addOrbitControls();
 
   // Draw!
   render();

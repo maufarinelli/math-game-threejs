@@ -36,15 +36,16 @@ class BoxGrid {
 
   public updateBoxGrid(level: number, rightAnswer: number) {
     const obstaclesNumbersList = this.getObstaclesNumbers(level, rightAnswer);
-    const holesNumbersList = obstaclesNumbersList.slice(6);
-    const spiderNumbersList = obstaclesNumbersList.slice(0, 6);
+    const holesNumbersList = obstaclesNumbersList.slice(12);
+    const spiderNumbersList = obstaclesNumbersList.slice(0, 12);
 
-    this.boxGrid.children.forEach(box => {
+    this.boxGrid.children.forEach((box) => {
       // @ts-ignore
       box.material.color.setHex(config.BOX_CONFIG.COLOR);
 
       if (holesNumbersList.includes(box.userData.boxNumber)) {
         box.userData.isHole = true;
+        box.userData.hasSpider = false;
         // @ts-ignore
         box.material.color.setHex(config.BOX_CONFIG.HOLE_COLOR);
         // @ts-ignore
@@ -53,6 +54,7 @@ class BoxGrid {
         );
       } else if (spiderNumbersList.includes(box.userData.boxNumber)) {
         box.userData.hasSpider = true;
+        box.userData.isHole = false;
       } else {
         box.userData.isHole = false;
         box.userData.hasSpider = false;
@@ -65,16 +67,17 @@ class BoxGrid {
   }
 
   public getObstaclesNumbers(level: number, rightAnswer: number) {
-    const obstaclesQty = level * 8;
-    const obstacleNumbersList = [];
+    const obstaclesQty = level * 12;
+    const obstacleNumbersList: number[] = [];
 
-    let i = 0;
-    while (i < obstaclesQty) {
+    while (obstacleNumbersList.length < obstaclesQty) {
       const obstacleBoxNumber = Math.ceil(Math.random() * 99);
-      if (obstacleBoxNumber !== rightAnswer) {
+      if (
+        obstacleBoxNumber !== rightAnswer &&
+        !obstacleNumbersList.includes(obstacleBoxNumber)
+      ) {
         obstacleNumbersList.push(obstacleBoxNumber);
       }
-      i++;
     }
 
     return obstacleNumbersList;
@@ -93,8 +96,8 @@ class BoxGrid {
         ? columnPosition * 10 + rowPosition
         : rowPosition;
     const text = Text(String(boxNumber));
-    const holesNumbersList = obstaclesNumbersList.slice(6);
-    const spiderNumbersList = obstaclesNumbersList.slice(0, 6);
+    const holesNumbersList = obstaclesNumbersList.slice(12);
+    const spiderNumbersList = obstaclesNumbersList.slice(0, 12);
 
     box.add(text);
     box.userData.boxNumber = boxNumber;

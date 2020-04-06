@@ -7,7 +7,6 @@ import Plane from "./components/3D/Plane/Plane";
 import Character from "./components/3D/Character/Character";
 import getDirectionalLight from "./components/3D/DirectionalLight/DirectionalLight";
 import Form from "./components/React/Form/Form";
-// import { observer } from "mobx-react";
 
 const App: React.FC = () => {
   const plane = Plane();

@@ -3,18 +3,50 @@
   width: 100vw;
   height: 100vh;
   z-index: 10;
+  color: white;
 }
 
 .form {
+  min-width: 800px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
+.pirate-img {
+  height: 450px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(50% - 450px);
+}
+
+.form h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.form h3 {
+  font-size: 32px;
+  margin: 0;
+}
+
 .form p {
-  color: white;
   font-size: 30px;
+}
+
+.form p.story {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+}
+
+.form p.last {
+  margin-bottom: 25px;
+}
+
+.form li {
+  margin-bottom: 10px;
 }
 
 .form button {
@@ -39,4 +71,20 @@
   border: 0;
   padding: 10px 20px;
   border-radius: 15px;
+}
+
+.winner-images {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.treasure {
+  height: 350px;
+  margin-right: 20px;
+}
+
+.winner-fox {
+  height: 450px;
 }

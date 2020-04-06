@@ -8,7 +8,7 @@ import {
   Group,
   Vector2,
   Raycaster,
-  Intersection
+  Intersection,
 } from "three";
 import OrbitControls from "three-orbitcontrols";
 import StoreContext from "../../../store/context";
@@ -37,7 +37,7 @@ const useScene = ({
   ASPECT,
   NEAR,
   FAR,
-  COLOR
+  COLOR,
 }: ISceneConfig) => {
   let canvas: any;
   let renderer: WebGLRenderer;
@@ -71,7 +71,7 @@ const useScene = ({
     camera.position.y = config.CAMERA_CONFIG.y;
     camera.position.z = config.CAMERA_CONFIG.z;
 
-    camera.lookAt(new Vector3(-7, 2, -2));
+    camera.lookAt(new Vector3(-6.75, 4, 0));
   };
 
   const setScene = () => (scene = new Scene());
@@ -108,7 +108,7 @@ const useScene = ({
   };
 
   const addItemsToScene = (items: Mesh[]) => {
-    items.forEach(child => {
+    items.forEach((child) => {
       itemsOfScene.push(child);
       scene.add(child);
     });
@@ -127,11 +127,11 @@ const useScene = ({
   };
 
   const addSpidersToScene = () => {
-    boxGrid.children.forEach(box => {
+    boxGrid.children.forEach((box) => {
       if (box.userData.hasSpider) {
         const position = {
           x: box.position.x,
-          z: box.position.z
+          z: box.position.z,
         };
         const spiderInstance = new Spider(scene, position);
         gameStore.setSpiders(spiderInstance);
@@ -155,6 +155,12 @@ const useScene = ({
 
   const addOrbitControls = () => {
     controls = new OrbitControls(camera, renderer.domElement);
+    controls.maxAzimuthAngle = Math.PI / 2 / 2;
+    controls.minAzimuthAngle = -(Math.PI / 2) / 2;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.target = new Vector3(-6.75, 4, 0);
+    controls.minZoom = 0;
+    controls.maxDistance = 20;
   };
 
   // https://stackoverflow.com/questions/29518886/moved-coordinates-of-the-scene-when-dom-element-with-renderer-is-not-at-the-top
@@ -209,7 +215,7 @@ const useScene = ({
 
     raycaster.setFromCamera(mouse, camera);
 
-    // controls.update();
+    controls.update();
     character.digAnimation();
     gameStore.animateSpider();
     gameStore.animateCoin();
@@ -233,7 +239,7 @@ const useScene = ({
     onMouseDown,
     onTouchStart,
     onDoubleClick,
-    render
+    render,
   };
 };
 

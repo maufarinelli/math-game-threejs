@@ -35,6 +35,8 @@ class GameStore {
   @observable
   public _isGameCompleted: boolean;
 
+  public startingNewGame: boolean;
+
   constructor(private challengeStore: ChallengeStore) {
     this._score = sessionStorage.getItem("game-score")
       ? Number(sessionStorage.getItem("game-score"))
@@ -45,14 +47,17 @@ class GameStore {
     this._phase = sessionStorage.getItem("game-phase")
       ? Number(sessionStorage.getItem("game-phase"))
       : 1;
-    this._showForm = false;
+
+    this.startingNewGame = this._level === 1 && this._phase === 1;
+    this._showForm = this.startingNewGame;
+
     this._isLevelCompleted = false;
     this._isLevelNotCompletedSuccessfully = false;
     this._isGameCompleted = false;
   }
 
   private highlightSelectedBox(intersection: Intersection, boxes: Group[]) {
-    boxes.forEach(child => {
+    boxes.forEach((child) => {
       if (!child.userData.isHole) {
         // @ts-ignore
         child.material.color.set(config.BOX_CONFIG.COLOR);
@@ -84,7 +89,7 @@ class GameStore {
   }
 
   public animateSpider() {
-    this.spiders.forEach(spider => spider.spiderAnimation());
+    this.spiders.forEach((spider) => spider.spiderAnimation());
   }
 
   public setCoin(coin: Coin) {
@@ -220,11 +225,17 @@ class GameStore {
 
   public updateSpidersPosition() {
     const boxGrid = this.boxGrid?.getBoxGrid().children;
-    const boxWithSpiders = boxGrid?.filter(box => box.userData.hasSpider);
+    const boxWithSpiders = boxGrid?.filter((box) => box.userData.hasSpider);
 
     boxWithSpiders?.forEach((box, index) => {
       this.spiders[index].changeSpiderPosition(box.position);
     });
+  }
+
+  @action
+  public handleStartClick() {
+    this._showForm = false;
+    this.startingNewGame = false;
   }
 
   @action

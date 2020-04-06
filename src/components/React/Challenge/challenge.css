@@ -2,8 +2,15 @@
   margin-bottom: 10px;
 }
 
+.challenge p {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 .challenge-number,
 .challenge-math-sign {
+  font-size: 36px;
   font-weight: bold;
   margin-right: 5px;
+  vertical-align: bottom;
 }
