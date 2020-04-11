@@ -8,7 +8,6 @@ import {
   Group,
   Vector2,
   Raycaster,
-  Intersection,
 } from "three";
 import OrbitControls from "three-orbitcontrols";
 import StoreContext from "../../../store/context";
@@ -50,7 +49,6 @@ const useScene = ({
   let controls: any;
   const mouse = new Vector2();
   const raycaster = new Raycaster();
-  let selectedItem: Intersection;
   const { challengeStore, gameStore } = useContext(StoreContext);
 
   const setRenderer = () => {
@@ -71,7 +69,7 @@ const useScene = ({
     camera.position.y = config.CAMERA_CONFIG.y;
     camera.position.z = config.CAMERA_CONFIG.z;
 
-    camera.lookAt(new Vector3(-6.75, 4, 0));
+    camera.lookAt(config.CAMERA_LOOK_AT);
   };
 
   const setScene = () => (scene = new Scene());
@@ -155,12 +153,19 @@ const useScene = ({
 
   const addOrbitControls = () => {
     controls = new OrbitControls(camera, renderer.domElement);
-    controls.maxAzimuthAngle = Math.PI / 2 / 2;
-    controls.minAzimuthAngle = -(Math.PI / 2) / 2;
+    controls.maxAzimuthAngle = 0;
+    // controls.maxAzimuthAngle = Math.PI / 2 / 2;
+    controls.minAzimuthAngle = 0;
+    // controls.minAzimuthAngle = -(Math.PI / 2) / 2;
+    // controls.enableRotate = false;
     controls.maxPolarAngle = Math.PI / 2;
-    controls.target = new Vector3(-6.75, 4, 0);
+    controls.target = config.CAMERA_LOOK_AT;
     controls.minZoom = 0;
     controls.maxDistance = 20;
+    controls.saveState();
+
+    // @ts-ignore
+    window.controls = controls;
   };
 
   // https://stackoverflow.com/questions/29518886/moved-coordinates-of-the-scene-when-dom-element-with-renderer-is-not-at-the-top
@@ -170,22 +175,33 @@ const useScene = ({
     mouse.y = -((event.clientY - rect.top) / HEIGHT) * 2 + 1;
   };
 
-  const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const onMouseDown = (event: any) => {
     event.preventDefault();
 
     setMousePosition(event);
     raycasterAction(event.type);
   };
 
+  let onLongTouch: any;
   const onTouchStart = (event: any) => {
     event.preventDefault();
-    let touch;
+    let touch: any;
 
     if (event.targetTouches.length >= 1) touch = event.targetTouches.item(0);
     else touch = event.touches.item(0);
 
+    onLongTouch = setTimeout(() => {
+      setMousePosition(touch);
+      raycasterAction("longtouch");
+    }, 750);
+
     setMousePosition(touch);
     raycasterAction(event.type);
+  };
+
+  const onTouchEnd = (event: any) => {
+    event.preventDefault();
+    clearTimeout(onLongTouch);
   };
 
   const onDoubleClick = (event: any) => {
@@ -199,13 +215,16 @@ const useScene = ({
     raycaster.setFromCamera(mouse, camera);
     const intersection = raycaster.intersectObjects(boxGrid.children);
 
-    if (intersection.length > 0) {
+    if (intersection.length > 0 && gameStore.isMoveAllowed(intersection[0])) {
       gameStore.selectBoxAction(intersection[0], boxGrid.children);
 
-      if (eventType !== "dblclick") {
+      if (eventType !== "dblclick" && eventType !== "longtouch") {
         gameStore.dispatchCharacterJumpAction();
       } else {
         gameStore.dispatchCharacterDigAction();
+        setTimeout(() => {
+          controls.reset();
+        }, 1000);
       }
     }
   };
@@ -238,6 +257,7 @@ const useScene = ({
     addOrbitControls,
     onMouseDown,
     onTouchStart,
+    onTouchEnd,
     onDoubleClick,
     render,
   };

@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import Scene from "./components/3D/Scene/Scene";
-import BoxGrid from "./components/3D/Box/BoxGrid";
 import Header from "./components/React/Header/Header";
 import Plane from "./components/3D/Plane/Plane";
 import Character from "./components/3D/Character/Character";

@@ -104,6 +104,22 @@ class GameStore {
     return this.character;
   }
 
+  public isMoveAllowed(currentSelectedItem: Intersection) {
+    const selectedPosX = currentSelectedItem.object.position.x;
+    const selectedPosZ = currentSelectedItem.object.position.z;
+    if (!this.character) return false;
+
+    const { x, z } = this.character.getPosition();
+    return (
+      (selectedPosX - x === -config.BOX_CONFIG.SEPARATOR ||
+        selectedPosX - x === config.BOX_CONFIG.SEPARATOR ||
+        selectedPosX - x === 0) &&
+      (selectedPosZ - z === -config.BOX_CONFIG.SEPARATOR ||
+        selectedPosZ - z === config.BOX_CONFIG.SEPARATOR ||
+        selectedPosZ - z === 0)
+    );
+  }
+
   public selectBoxAction(intersection: Intersection, boxes: Group[]) {
     this.highlightSelectedBox(intersection, boxes);
     this.setSelectedBox(intersection);

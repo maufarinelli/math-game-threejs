@@ -1,4 +1,6 @@
-const headerHeight = 115;
+import { Vector3 } from "three";
+
+const headerHeight = 0;
 
 export default {
   SCENE_CONFIG: {
@@ -22,6 +24,7 @@ export default {
     y: 13,
     z: 12,
   },
+  CAMERA_LOOK_AT: new Vector3(-6.75, 4, -2),
 
   // Set some point lights
   POINT_LIGHT: {

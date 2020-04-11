@@ -5,7 +5,16 @@ import { observer } from "mobx-react";
 import Overlay from "../Overlay/Overlay";
 
 const Form: React.FC = observer(() => {
-  const { gameStore } = useContext(StoreContext);
+  const { gameStore, challengeStore } = useContext(StoreContext);
+
+  const getAnswerStatus = () => {
+    if (challengeStore.isPristine) return;
+
+    if (challengeStore.isRightAnswer) {
+      return "Ta reponse est CORRECT!";
+    }
+    return 'Ta reponse n\'est pas correct!';
+  };
 
   const getGameDescription = () => {
     let howMany = 13;
@@ -15,6 +24,8 @@ const Form: React.FC = observer(() => {
 
     return (
       <>
+        <p>{getAnswerStatus()}</p>
+        <br />
         <h3>Niveau {gameStore.level}. </h3>
         <p className="story">
           Vous devez avoir au moins {howMany} points pour passer au prochain
@@ -55,7 +66,7 @@ const Form: React.FC = observer(() => {
 
   return gameStore.startingNewGame ? (
     <div className="form-wrapper">
-      <img className="pirate-img" src="./pirate-math.png" alt="" />
+      <img alt="pirate" className="pirate-img" src="./pirate-math.png" />
       <form className="form">
         <h1>Le Pirate Mathématicien</h1>
         <p className="story">
@@ -65,10 +76,8 @@ const Form: React.FC = observer(() => {
         </p>
         <p className="story">
           Cépendant, ces cartes ont des indications mystérieuses, telles que
-          l'addition et la soustraction de nombres.
-        </p>
-        <p className="story">
-          Aidez Fox à résoudre ces mystères et à trouver tout ce trésor caché.
+          l'addition et la soustraction de nombres. Aidez Fox à résoudre ces
+          mystères et à trouver tout ce trésor caché.
         </p>
         <hr />
         <h3>Comment jouer: </h3>
@@ -114,8 +123,12 @@ const Form: React.FC = observer(() => {
           <>
             <h3>FÉLICITATION! Vous avez rencontré tous les trésors.</h3>
             <div className="winner-images">
-              <img className="treasure" src="./treasure.png" />
-              <img className="winner-fox" src="./winner-fox.png" />
+              <img alt="treasure" className="treasure" src="./treasure.png" />
+              <img
+                alt="winner-fox"
+                className="winner-fox"
+                src="./winner-fox.png"
+              />
             </div>
           </>
         )}

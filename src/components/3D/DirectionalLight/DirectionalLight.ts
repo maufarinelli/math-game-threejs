@@ -2,7 +2,7 @@ import {
   DirectionalLight,
   SphereGeometry,
   MeshBasicMaterial,
-  Mesh
+  Mesh,
 } from "three";
 import config from "../../../config";
 import * as dat from "dat.gui";
@@ -11,7 +11,7 @@ import * as dat from "dat.gui";
 const getSphere = () => {
   var geometry = new SphereGeometry(0.1, 24, 24);
   var material = new MeshBasicMaterial({
-    color: "rgb(255, 255, 255)"
+    color: "rgb(255, 255, 255)",
   });
   var mesh = new Mesh(geometry, material);
 
@@ -44,8 +44,8 @@ const getDirectionalLight = () => {
   light.position.y = 10;
   light.position.z = -10;
 
-  const sphere = getSphere();
-  light.add(sphere);
+  // const sphere = getSphere();
+  // light.add(sphere);
   // addGui(light);
 
   return light;

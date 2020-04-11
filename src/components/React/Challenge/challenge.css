@@ -1,9 +1,10 @@
 .challenge {
-  margin-bottom: 10px;
+  margin: 10px 0 0;
 }
 
 .challenge p {
   display: inline-block;
+  margin-top: 0;
   margin-right: 10px;
 }
 

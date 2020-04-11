@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Light, Mesh, Group } from "three";
+import { Light, Mesh } from "three";
 import useScene from "./useScene";
 import config from "../../../config";
-// import { observer } from "mobx-react";
 import Character from "../Character/Character";
 
 interface IScene {
@@ -25,6 +24,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     addOrbitControls,
     onMouseDown,
     onTouchStart,
+    onTouchEnd,
     onDoubleClick,
     render,
   } = useScene(config.SCENE_CONFIG);
@@ -41,21 +41,33 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
   useEffect(() => {
     // Attach the renderer-supplied
     // DOM element.
-    if (container.current) {
-      container.current.appendChild(renderer.domElement);
-      // @ts-ignore
-      container.current.addEventListener("mousedown", onMouseDown, false);
-      container.current.addEventListener("touchstart", onTouchStart, false);
-      container.current.addEventListener("dblclick", onDoubleClick, false);
+    if (!container.current) return;
 
-      renderer.domElement.requestFullscreen().catch((err) => {
-        console.log(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
+    const canvas = container.current;
 
-      setCanvas(container);
-    }
+    canvas.appendChild(renderer.domElement);
+    // @ts-ignore
+    canvas.addEventListener("mousedown", onMouseDown, false);
+    canvas.addEventListener("touchstart", onTouchStart, false);
+    canvas.addEventListener("dblclick", onDoubleClick, false);
+    canvas.addEventListener("touchend", onTouchEnd, false);
+
+    document.documentElement.requestFullscreen().catch((err) => {
+      console.log(
+        `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+      );
+    });
+
+    setCanvas(container);
+
+    return function cleanup() {
+      if (!canvas) return;
+
+      canvas.removeEventListener("mousedown", onMouseDown, false);
+      canvas.removeEventListener("touchstart", onTouchStart, false);
+      canvas.removeEventListener("dblclick", onDoubleClick, false);
+      canvas.removeEventListener("touchend", onTouchEnd, false);
+    };
   }, []);
 
   // create a point light and add to the scene
