@@ -22,6 +22,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     addSpidersToScene,
     addCoinToScene,
     addOrbitControls,
+    onWindowResize,
     onMouseDown,
     onTouchStart,
     onTouchEnd,
@@ -52,11 +53,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
     canvas.addEventListener("dblclick", onDoubleClick, false);
     canvas.addEventListener("touchend", onTouchEnd, false);
 
-    document.documentElement.requestFullscreen().catch((err) => {
-      console.log(
-        `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-      );
-    });
+    window.addEventListener("resize", onWindowResize, false);
 
     setCanvas(container);
 
@@ -67,6 +64,8 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
       canvas.removeEventListener("touchstart", onTouchStart, false);
       canvas.removeEventListener("dblclick", onDoubleClick, false);
       canvas.removeEventListener("touchend", onTouchEnd, false);
+
+      window.removeEventListener("resize", onWindowResize, false);
     };
   }, []);
 

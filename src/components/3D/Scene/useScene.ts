@@ -175,6 +175,13 @@ const useScene = ({
     mouse.y = -((event.clientY - rect.top) / HEIGHT) * 2 + 1;
   };
 
+  const onWindowResize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
   const onMouseDown = (event: any) => {
     event.preventDefault();
 
@@ -255,6 +262,7 @@ const useScene = ({
     addSpidersToScene,
     addCoinToScene,
     addOrbitControls,
+    onWindowResize,
     onMouseDown,
     onTouchStart,
     onTouchEnd,

@@ -196,7 +196,7 @@ class GameStore {
       runInAction(() => {
         this._showForm = true;
       });
-    }, 500);
+    }, 1000);
   }
 
   @action
