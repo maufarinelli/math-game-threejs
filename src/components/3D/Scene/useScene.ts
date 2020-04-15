@@ -52,7 +52,7 @@ const useScene = ({
   const { challengeStore, gameStore } = useContext(StoreContext);
 
   const setRenderer = () => {
-    renderer = new WebGLRenderer();
+    renderer = new WebGLRenderer({ powerPreference: "high-performance" });
 
     // Start the renderer.
     renderer.setSize(WIDTH, HEIGHT);
@@ -70,6 +70,9 @@ const useScene = ({
     camera.position.z = config.CAMERA_CONFIG.z;
 
     camera.lookAt(config.CAMERA_LOOK_AT);
+
+    // @ts-ignore
+    window.camera = camera;
   };
 
   const setScene = () => (scene = new Scene());
@@ -84,6 +87,8 @@ const useScene = ({
 
   const setCanvas = (container: React.RefObject<HTMLDivElement>) => {
     canvas = container.current?.children[0];
+    // @ts-ignore
+    window.canvas = canvas;
   };
 
   // for debugging purposes

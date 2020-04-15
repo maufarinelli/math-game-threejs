@@ -36,13 +36,11 @@ class Coin {
 
     loader.load("./skull_coin.obj", (object: THREE.Mesh) => {
       const map = this.loadTextures();
-      const colorMaterial = new THREE.MeshPhongMaterial({
+      const colorMaterial = new THREE.MeshBasicMaterial({
         color: 0xffd100,
         map,
-        normalMap: map,
         aoMap: map,
         specularMap: map,
-        lightMap: map
       });
 
       object.traverse((child: THREE.Object3D) => {
@@ -72,7 +70,7 @@ class Coin {
   public changeCoinPosition({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;
@@ -86,7 +84,7 @@ class Coin {
   public changeCoinRotation({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;

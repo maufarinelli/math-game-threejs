@@ -32,8 +32,8 @@ class Spider {
     const loader = new threeInstance.OBJLoader();
 
     loader.load("./spider.obj", (object: THREE.Mesh) => {
-      const colorMaterial = new THREE.MeshPhongMaterial({
-        color: 0x000000
+      const colorMaterial = new THREE.MeshLambertMaterial({
+        color: 0x000000,
       });
 
       object.traverse((child: THREE.Object3D) => {
@@ -57,7 +57,7 @@ class Spider {
   public changeSpiderPosition({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;
@@ -71,7 +71,7 @@ class Spider {
   public changeSpiderRotation({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;

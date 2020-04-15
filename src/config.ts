@@ -59,6 +59,6 @@ export default {
   TEXT_CONFIG: {
     SIZE: 0.3,
     HEIGHT: 0.05,
-    COLOR: "rgb(106, 168, 67)",
+    COLOR: "rgb(42, 90, 13)",
   },
 };

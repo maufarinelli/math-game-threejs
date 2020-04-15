@@ -95,11 +95,13 @@ class BoxGrid {
       isBoxInZ && columnPosition
         ? columnPosition * 10 + rowPosition
         : rowPosition;
-    const text = Text(String(boxNumber));
+
     const holesNumbersList = obstaclesNumbersList.slice(12);
     const spiderNumbersList = obstaclesNumbersList.slice(0, 12);
 
+    const text = Text(String(boxNumber));
     box.add(text);
+
     box.userData.boxNumber = boxNumber;
 
     if (holesNumbersList.includes(boxNumber)) {
