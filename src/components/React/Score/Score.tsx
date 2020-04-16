@@ -24,12 +24,12 @@ const Score: React.FC = observer(() => {
   return (
     <div className="score">
       <p>
-        Level: {level}x{phase}
+        Niveau: {level}x{phase}
       </p>
       <div>
         <Coins score={score} />
       </div>
-      <span>Score: {score}</span>
+      <span>Résultat: {score}</span>
     </div>
   );
 });

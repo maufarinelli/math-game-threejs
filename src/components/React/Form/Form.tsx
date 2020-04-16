@@ -70,12 +70,12 @@ const Form: React.FC = observer(() => {
       <form className="form">
         <h1>Le Pirate Mathématicien</h1>
         <p className="story">
-          Un pirate avait caché tous les monnais de son trésor sur des îles
-          differentes. Fox a trouvé des cartes avec des indications
-          mystérieuses, telles que l'addition et la soustraction de nombres.
+          Un pirate avait caché toutes les pièces de monnais de son trésor sur
+          des îles différentes. Fox a trouvé des cartes avec des indications
+          mystérieuses, telles que l'addition et la soustraction des nombres.
         </p>
         <p className="story">
-          Aidez Fox à résoudre ces mystères et à trouver tout ce trésor caché.
+          Aidez Fox à résoudre ces mystères et à trouver ce trésor caché.
         </p>
         <hr />
         <h3>Comment jouer: </h3>
@@ -85,10 +85,10 @@ const Form: React.FC = observer(() => {
             position, pour que le personnage se déplace.
           </li>
           <li>
-            Dès que vous atteignez <b>le carré où ce trouve le résultat</b> de
+            Dès que vous atteignez <b>le carré où se trouve le résultat</b> de
             votre calcul <b>double-cliquez</b> (
-            <i>ou touchez longtemps pour ceux qui jouent sur une tablette</i>)
-            pour creuser et trouver la pièce cachée.
+            <i>ou appuyez longtemps pour les utilisateurs de tablette</i>) pour
+            creuser et trouver la pièce cachée.
           </li>
         </ul>
       </form>
@@ -119,7 +119,7 @@ const Form: React.FC = observer(() => {
 
         {gameStore.isGameCompleted && (
           <>
-            <h3>FÉLICITATION! Vous avez rencontré tous les trésors.</h3>
+            <h3>FÉLICITATIONS! Vous avez retrouvé tout le trésor.</h3>
             <div className="winner-images">
               <img alt="treasure" className="treasure" src="./treasure.png" />
               <img
@@ -132,7 +132,7 @@ const Form: React.FC = observer(() => {
         )}
       </form>
       <form className="form-restart">
-        <button onClick={handleRestartClick}>Restart Game</button>
+        <button onClick={handleRestartClick}>Recommencer</button>
       </form>
       <Overlay />
     </div>
