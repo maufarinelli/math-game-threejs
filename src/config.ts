@@ -1,12 +1,10 @@
 import { Vector3 } from "three";
 
-const headerHeight = 0;
-
 export default {
   SCENE_CONFIG: {
     // Set the scene size.
     WIDTH: window.innerWidth,
-    HEIGHT: window.innerHeight - headerHeight,
+    HEIGHT: window.innerHeight,
 
     // Set some camera attributes.
     VIEW_ANGLE: 35,

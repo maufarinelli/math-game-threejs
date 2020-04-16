@@ -71,13 +71,11 @@ const Form: React.FC = observer(() => {
         <h1>Le Pirate Mathématicien</h1>
         <p className="story">
           Un pirate avait caché tous les monnais de son trésor sur des îles
-          differentes. Notre ami Fox à trouver des cartes avec des indications
-          où ils sont cachés.
+          differentes. Fox a trouvé des cartes avec des indications
+          mystérieuses, telles que l'addition et la soustraction de nombres.
         </p>
         <p className="story">
-          Cépendant, ces cartes ont des indications mystérieuses, telles que
-          l'addition et la soustraction de nombres. Aidez Fox à résoudre ces
-          mystères et à trouver tout ce trésor caché.
+          Aidez Fox à résoudre ces mystères et à trouver tout ce trésor caché.
         </p>
         <hr />
         <h3>Comment jouer: </h3>

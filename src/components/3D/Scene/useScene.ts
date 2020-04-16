@@ -70,9 +70,6 @@ const useScene = ({
     camera.position.z = config.CAMERA_CONFIG.z;
 
     camera.lookAt(config.CAMERA_LOOK_AT);
-
-    // @ts-ignore
-    window.camera = camera;
   };
 
   const setScene = () => (scene = new Scene());
@@ -87,8 +84,6 @@ const useScene = ({
 
   const setCanvas = (container: React.RefObject<HTMLDivElement>) => {
     canvas = container.current?.children[0];
-    // @ts-ignore
-    window.canvas = canvas;
   };
 
   // for debugging purposes
@@ -177,7 +172,7 @@ const useScene = ({
   const setMousePosition = (event: any) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / window.innerWidth) * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / HEIGHT) * 2 + 1;
+    mouse.y = -((event.clientY - rect.top) / window.innerHeight) * 2 + 1;
   };
 
   const onWindowResize = () => {
