@@ -31,7 +31,7 @@ const Form: React.FC = observer(() => {
           Vous devez avoir au moins {howMany} points pour passer au prochain
           niveau. <b>Vous avez {gameStore.score}!</b>
         </p>
-        <p className="story">Chaque tresor trouvé vaut 3 points.</p>
+        <p className="story">Chaque trésor trouvé vaut 3 points.</p>
         <p className="story last">
           ATTENTION! Si vous tombez sur en trou ou une araignée, vous perdrez 1
           point.

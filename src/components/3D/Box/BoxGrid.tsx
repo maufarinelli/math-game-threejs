@@ -48,10 +48,6 @@ class BoxGrid {
         box.userData.hasSpider = false;
         // @ts-ignore
         box.material.color.setHex(config.BOX_CONFIG.HOLE_COLOR);
-        // @ts-ignore
-        box.children[0].material.color.setHex(
-          config.BOX_CONFIG.HOLE_TEXT_COLOR
-        );
       } else if (spiderNumbersList.includes(box.userData.boxNumber)) {
         box.userData.hasSpider = true;
         box.userData.isHole = false;
@@ -108,8 +104,6 @@ class BoxGrid {
       box.userData.isHole = true;
       // @ts-ignore
       box.material.color.setHex(config.BOX_CONFIG.HOLE_COLOR);
-      // @ts-ignore
-      text.material.color.setHex(config.BOX_CONFIG.HOLE_TEXT_COLOR);
     } else if (spiderNumbersList.includes(boxNumber)) {
       box.userData.hasSpider = true;
     }

@@ -29,7 +29,7 @@ const Score: React.FC = observer(() => {
       <div>
         <Coins score={score} />
       </div>
-      <span>Résultat: {score}</span>
+      <span>Score: {score}</span>
     </div>
   );
 });
