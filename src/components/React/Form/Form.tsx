@@ -11,9 +11,9 @@ const Form: React.FC = observer(() => {
     if (challengeStore.isPristine) return;
 
     if (challengeStore.isRightAnswer) {
-      return "Ta reponse est CORRECT!";
+      return "Ta réponse est BONNE!";
     }
-    return 'Ta reponse n\'est pas correct!';
+    return "Ta réponse est incorrecte.";
   };
 
   const getGameDescription = () => {
@@ -33,7 +33,7 @@ const Form: React.FC = observer(() => {
         </p>
         <p className="story">Chaque trésor trouvé vaut 3 points.</p>
         <p className="story last">
-          ATTENTION! Si vous tombez sur en trou ou une araignée, vous perdrez 1
+          ATTENTION! Si vous tombez sur un trou ou une araignée, vous perdrez 1
           point.
         </p>
       </>

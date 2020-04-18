@@ -25,17 +25,17 @@ class Character {
 
   public setCharacter(character: THREE.Mesh) {
     this.character = character;
+    // @ts-ignore
+    window.fox = this.character;
   }
 
   private loadTextures() {
     const textureLoader = new THREE.TextureLoader();
 
     const colorMap = textureLoader.load("./cat_textures/CatMac_C.png");
-    // const diffuseMap = textureLoader.load("./cat_textures/CatMac_D.jpg");
     const normalMap = textureLoader.load("./cat_textures/CatMac_N.jpg");
     const aoMap = textureLoader.load("./cat_textures/CatMac_AO.jpg");
     const specularMap = textureLoader.load("./cat_textures/CatMac_S.jpg");
-    // const eyesMap = textureLoader.load("./cat_textures/CatMacEyes_S.png");
 
     return { colorMap, normalMap, aoMap, specularMap };
   }
@@ -54,7 +54,7 @@ class Character {
         map: colorMap,
         aoMap,
         normalMap,
-        specularMap
+        specularMap,
       });
 
       object.traverse((child: THREE.Object3D) => {
@@ -77,7 +77,7 @@ class Character {
   public changeCharacterPosition({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;
@@ -97,7 +97,7 @@ class Character {
   public changeCharacteRotation({
     x,
     y,
-    z
+    z,
   }: {
     x?: number;
     y?: number;
@@ -217,28 +217,35 @@ class Character {
     let milisecondsToStop = 0;
 
     const wrongMoveAnimationCallback = () => {
-      const x =
+      const randomPosition =
         milisecondsToStop % 2 === 0
-          ? Math.random() * 0.5
-          : Math.random() * -0.5;
-      const z =
-        milisecondsToStop % 2 === 0
-          ? Math.random() * 0.5
-          : Math.random() * -0.5;
+          ? Math.random() * 0.05
+          : Math.random() * -0.05;
 
-      this.character.rotation.x = x;
-      this.character.rotation.z = z;
+      const opacity =
+        milisecondsToStop > 10
+          ? Math.sin(Math.PI / 2 / (milisecondsToStop - 10))
+          : Math.sin(Math.PI / 2 / milisecondsToStop);
+
+      this.character.rotation.x = randomPosition;
+      this.character.rotation.z = randomPosition;
+      // @ts-ignore
+      this.character.children[0].material.opacity = opacity;
 
       milisecondsToStop++;
-      if (milisecondsToStop >= 10) {
+      if (milisecondsToStop >= 20) {
         cancelAnimationFrame(wrongMoveAnimation);
         this.character.rotation.x = 0;
         this.character.rotation.z = 0;
+        // @ts-ignore
+        this.character.children[0].material.transparent = false;
       } else {
         wrongMoveAnimation = requestAnimationFrame(wrongMoveAnimationCallback);
       }
     };
 
+    // @ts-ignore
+    this.character.children[0].material.transparent = true;
     let wrongMoveAnimation = requestAnimationFrame(wrongMoveAnimationCallback);
   }
 }
