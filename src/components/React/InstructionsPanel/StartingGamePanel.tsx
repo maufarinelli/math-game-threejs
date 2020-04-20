@@ -34,10 +34,10 @@ const StartingGamePanel: React.FC<IStartingGamePanelProps> = ({
         </li>
       </ul>
     </div>
-    <div className="overlay"></div>
-    <form className="panel-restart">
+    <div className="panel-restart">
       <button onClick={handleStartClick}>Commencer >></button>
-    </form>
+    </div>
+    <div className="overlay"></div>
   </div>
 );
 

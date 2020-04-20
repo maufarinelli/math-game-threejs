@@ -33,6 +33,10 @@
   margin: 0;
 }
 
+.panel .story-title {
+  margin-top: 15px;
+}
+
 .panel p {
   font-size: 30px;
 }
@@ -54,28 +58,23 @@
   margin-bottom: 10px;
 }
 
-.panel button {
+.panel-wrapper button {
   background-color: rgb(62, 62, 62);
   color: white;
   font-size: 40px;
   border: 0;
   padding: 10px 20px;
   border-radius: 15px;
+}
+
+.panel .panel-action-button {
+  margin-top: 15px;
 }
 
 .panel-restart {
   position: absolute;
   bottom: 5%;
   right: 3%;
-}
-
-.panel-restart button {
-  background-color: rgb(62, 62, 62);
-  color: white;
-  font-size: 40px;
-  border: 0;
-  padding: 10px 20px;
-  border-radius: 15px;
 }
 
 .winner-images {
