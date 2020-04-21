@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { Light, Mesh } from "three";
-import useScene from "./useScene";
 import config from "../../../config";
+import useScene from "./useScene";
 import Character from "../Character/Character";
 
 interface IScene {
-  items: Mesh[];
+  plane: Mesh;
   light: Light;
   Character: typeof Character;
 }
 
-const Scene: React.FC<IScene> = ({ items, light, Character }) => {
+const Scene: React.FC<IScene> = ({ plane, light, Character }) => {
   const {
     setAllScene,
     setCanvas,
     getRenderer,
     addLightsToScene,
-    addItemsToScene,
+    addPlaneToScene,
     addBoxGridToScene,
     addCharacterToScene,
     addSpidersToScene,
@@ -74,8 +74,7 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
   addLightsToScene(light);
 
   // add Items to the scene
-  addItemsToScene(items);
-
+  addPlaneToScene(plane);
   addBoxGridToScene();
   addSpidersToScene();
   addCoinToScene();
@@ -86,7 +85,6 @@ const Scene: React.FC<IScene> = ({ items, light, Character }) => {
 
   addOrbitControls();
 
-  // Draw!
   render();
 
   return <div ref={container} />;

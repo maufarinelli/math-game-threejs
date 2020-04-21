@@ -4,14 +4,13 @@ import {
   Scene,
   Light,
   Mesh,
-  Vector3,
   Group,
   Vector2,
   Raycaster,
 } from "three";
+import { useContext } from "react";
 import OrbitControls from "three-orbitcontrols";
 import StoreContext from "../../../store/context";
-import { useContext } from "react";
 import config from "../../../config";
 import Character from "../Character/Character";
 import * as dat from "dat.gui";
@@ -43,7 +42,6 @@ const useScene = ({
   let camera: PerspectiveCamera;
   let scene: Scene;
   let sceneLight: Light;
-  let itemsOfScene: Mesh[] = [];
   let boxGrid: Group;
   let character: Character;
   let controls: any;
@@ -105,11 +103,8 @@ const useScene = ({
     scene.add(sceneLight);
   };
 
-  const addItemsToScene = (items: Mesh[]) => {
-    items.forEach((child) => {
-      itemsOfScene.push(child);
-      scene.add(child);
-    });
+  const addPlaneToScene = (plane: Mesh) => {
+    scene.add(plane);
   };
 
   const addBoxGridToScene = () => {
@@ -256,7 +251,7 @@ const useScene = ({
     setCanvas,
     getRenderer,
     addLightsToScene,
-    addItemsToScene,
+    addPlaneToScene,
     addBoxGridToScene,
     addCharacterToScene,
     addSpidersToScene,

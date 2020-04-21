@@ -5,7 +5,6 @@ import { observer } from "mobx-react";
 import StartingGamePanel from "./StartingGamePanel";
 import GameDescriptionPanel from "./GameDescriptionPanel";
 import WinnerPanel from "./WinnerPanel";
-import ActionButtons from "./ActionButtons";
 
 const InstructionsPanel: React.FC = observer(() => {
   const { gameStore } = useContext(StoreContext);
