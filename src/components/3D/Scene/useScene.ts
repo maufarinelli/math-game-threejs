@@ -3,8 +3,6 @@ import {
   PerspectiveCamera,
   Scene,
   Light,
-  Mesh,
-  Group,
   Vector2,
   Raycaster,
 } from "three";
@@ -12,11 +10,7 @@ import { useContext } from "react";
 import OrbitControls from "three-orbitcontrols";
 import StoreContext from "../../../store/context";
 import config from "../../../config";
-import Character from "../Character/Character";
 import * as dat from "dat.gui";
-import BoxGrid from "../Box/BoxGrid";
-import Spider from "../Spider/Spider";
-import Coin from "../Coin/Coin";
 
 interface ISceneConfig {
   WIDTH: number;
@@ -42,12 +36,10 @@ const useScene = ({
   let camera: PerspectiveCamera;
   let scene: Scene;
   let sceneLight: Light;
-  let boxGrid: Group;
-  let character: Character;
   let controls: any;
   const mouse = new Vector2();
   const raycaster = new Raycaster();
-  const { challengeStore, gameStore } = useContext(StoreContext);
+  const { gameStore } = useContext(StoreContext);
 
   const setRenderer = () => {
     renderer = new WebGLRenderer({ powerPreference: "high-performance" });
@@ -70,7 +62,13 @@ const useScene = ({
     camera.lookAt(config.CAMERA_LOOK_AT);
   };
 
+  const getCamera = () => {
+    return camera;
+  };
+
   const setScene = () => (scene = new Scene());
+
+  const getScene = () => scene;
 
   const setAllScene = () => {
     if (!renderer) {
@@ -103,49 +101,6 @@ const useScene = ({
     scene.add(sceneLight);
   };
 
-  const addPlaneToScene = (plane: Mesh) => {
-    scene.add(plane);
-  };
-
-  const addBoxGridToScene = () => {
-    const boxGridInstance = new BoxGrid(
-      10,
-      gameStore.level,
-      challengeStore.rightAnswer
-    );
-    boxGrid = boxGridInstance.getBoxGrid();
-    scene.add(boxGrid);
-
-    gameStore.setBoxGrid(boxGridInstance);
-  };
-
-  const addSpidersToScene = () => {
-    boxGrid.children.forEach((box) => {
-      if (box.userData.hasSpider) {
-        const position = {
-          x: box.position.x,
-          z: box.position.z,
-        };
-        const spiderInstance = new Spider(scene, position);
-        gameStore.setSpiders(spiderInstance);
-      }
-    });
-  };
-
-  const addCoinToScene = () => {
-    const coinInstance = new Coin(scene);
-    gameStore.setCoin(coinInstance);
-  };
-
-  const addCharacterToScene = (Character: any) => {
-    character = gameStore.getCharacter();
-
-    if (!character) {
-      character = new Character(scene);
-      gameStore.setCharacter(character);
-    }
-  };
-
   const addOrbitControls = () => {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.maxAzimuthAngle = 0;
@@ -170,51 +125,9 @@ const useScene = ({
     mouse.y = -((event.clientY - rect.top) / window.innerHeight) * 2 + 1;
   };
 
-  const onWindowResize = () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  };
-
-  const onMouseDown = (event: any) => {
-    event.preventDefault();
-
-    setMousePosition(event);
-    raycasterAction(event.type);
-  };
-
-  let onLongTouch: any;
-  const onTouchStart = (event: any) => {
-    event.preventDefault();
-    let touch: any;
-
-    if (event.targetTouches.length >= 1) touch = event.targetTouches.item(0);
-    else touch = event.touches.item(0);
-
-    onLongTouch = setTimeout(() => {
-      setMousePosition(touch);
-      raycasterAction("longtouch");
-    }, 750);
-
-    setMousePosition(touch);
-    raycasterAction(event.type);
-  };
-
-  const onTouchEnd = (event: any) => {
-    event.preventDefault();
-    clearTimeout(onLongTouch);
-  };
-
-  const onDoubleClick = (event: any) => {
-    event.preventDefault();
-    setMousePosition(event);
-
-    raycasterAction(event.type);
-  };
-
   const raycasterAction = (eventType: string) => {
     raycaster.setFromCamera(mouse, camera);
+    const boxGrid = gameStore.getBoxGridGroup();
     const intersection = raycaster.intersectObjects(boxGrid.children);
 
     if (intersection.length > 0 && gameStore.isMoveAllowed(intersection[0])) {
@@ -237,7 +150,7 @@ const useScene = ({
     raycaster.setFromCamera(mouse, camera);
 
     controls.update();
-    character.digAnimation();
+    gameStore.getCharacter().digAnimation();
     gameStore.animateSpider();
     gameStore.animateCoin();
 
@@ -249,19 +162,13 @@ const useScene = ({
   return {
     setAllScene,
     setCanvas,
+    getScene,
     getRenderer,
+    getCamera,
     addLightsToScene,
-    addPlaneToScene,
-    addBoxGridToScene,
-    addCharacterToScene,
-    addSpidersToScene,
-    addCoinToScene,
     addOrbitControls,
-    onWindowResize,
-    onMouseDown,
-    onTouchStart,
-    onTouchEnd,
-    onDoubleClick,
+    setMousePosition,
+    raycasterAction,
     render,
   };
 };

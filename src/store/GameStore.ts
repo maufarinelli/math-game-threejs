@@ -80,8 +80,20 @@ class GameStore {
     this.character = c;
   }
 
+  public getCharacter() {
+    return this.character;
+  }
+
   public setBoxGrid(b: BoxGrid) {
     this.boxGrid = b;
+  }
+
+  public getBoxGrid() {
+    return this.boxGrid;
+  }
+
+  public getBoxGridGroup(): Group {
+    return this.boxGrid?.getBoxGridGroup() as Group;
   }
 
   public setSpiders(spider: Spider) {
@@ -98,10 +110,6 @@ class GameStore {
 
   public animateCoin() {
     this.coin?.coinAnimation();
-  }
-
-  public getCharacter() {
-    return this.character;
   }
 
   public isMoveAllowed(currentSelectedItem: Intersection) {
@@ -240,7 +248,7 @@ class GameStore {
   }
 
   public updateSpidersPosition() {
-    const boxGrid = this.boxGrid?.getBoxGrid().children;
+    const boxGrid = this.getBoxGridGroup()?.children;
     const boxWithSpiders = boxGrid?.filter((box) => box.userData.hasSpider);
 
     boxWithSpiders?.forEach((box, index) => {

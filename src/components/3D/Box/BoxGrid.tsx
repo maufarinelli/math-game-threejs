@@ -58,7 +58,7 @@ class BoxGrid {
     });
   }
 
-  public getBoxGrid() {
+  public getBoxGridGroup() {
     return this.boxGrid;
   }
 

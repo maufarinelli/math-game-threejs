@@ -3,6 +3,8 @@ import { Light, Mesh } from "three";
 import config from "../../../config";
 import useScene from "./useScene";
 import Character from "../Character/Character";
+import useMeshes from "./useMeshes";
+import EventHandlers from "./EventHandlers";
 
 interface IScene {
   plane: Mesh;
@@ -14,19 +16,13 @@ const Scene: React.FC<IScene> = ({ plane, light, Character }) => {
   const {
     setAllScene,
     setCanvas,
+    getScene,
     getRenderer,
+    getCamera,
     addLightsToScene,
-    addPlaneToScene,
-    addBoxGridToScene,
-    addCharacterToScene,
-    addSpidersToScene,
-    addCoinToScene,
     addOrbitControls,
-    onWindowResize,
-    onMouseDown,
-    onTouchStart,
-    onTouchEnd,
-    onDoubleClick,
+    setMousePosition,
+    raycasterAction,
     render,
   } = useScene(config.SCENE_CONFIG);
 
@@ -37,7 +33,26 @@ const Scene: React.FC<IScene> = ({ plane, light, Character }) => {
   // and a scene
   setAllScene();
 
+  const scene = getScene();
   const renderer = getRenderer();
+  const camera = getCamera();
+
+  // To add Meshes to the Scene
+  const {
+    addPlaneToScene,
+    addBoxGridToScene,
+    addCharacterToScene,
+    addSpidersToScene,
+    addCoinToScene,
+  } = useMeshes(scene);
+
+  // Event Handlers
+  const eventHandlers = new EventHandlers(
+    camera,
+    renderer,
+    setMousePosition,
+    raycasterAction
+  );
 
   useEffect(() => {
     // Attach the renderer-supplied
@@ -48,24 +63,52 @@ const Scene: React.FC<IScene> = ({ plane, light, Character }) => {
 
     canvas.appendChild(renderer.domElement);
     // @ts-ignore
-    canvas.addEventListener("mousedown", onMouseDown, false);
-    canvas.addEventListener("touchstart", onTouchStart, false);
-    canvas.addEventListener("dblclick", onDoubleClick, false);
-    canvas.addEventListener("touchend", onTouchEnd, false);
+    canvas.addEventListener(
+      "mousedown",
+      eventHandlers.onMouseDown.bind(eventHandlers),
+      false
+    );
+    canvas.addEventListener(
+      "touchstart",
+      eventHandlers.onTouchStart.bind(eventHandlers),
+      false
+    );
+    canvas.addEventListener(
+      "dblclick",
+      eventHandlers.onDoubleClick.bind(eventHandlers),
+      false
+    );
+    canvas.addEventListener(
+      "touchend",
+      eventHandlers.onTouchEnd.bind(eventHandlers),
+      false
+    );
 
-    window.addEventListener("resize", onWindowResize, false);
+    window.addEventListener(
+      "resize",
+      eventHandlers.onWindowResize.bind(eventHandlers),
+      false
+    );
 
     setCanvas(container);
 
     return function cleanup() {
       if (!canvas) return;
 
-      canvas.removeEventListener("mousedown", onMouseDown, false);
-      canvas.removeEventListener("touchstart", onTouchStart, false);
-      canvas.removeEventListener("dblclick", onDoubleClick, false);
-      canvas.removeEventListener("touchend", onTouchEnd, false);
+      canvas.removeEventListener("mousedown", eventHandlers.onMouseDown, false);
+      canvas.removeEventListener(
+        "touchstart",
+        eventHandlers.onTouchStart,
+        false
+      );
+      canvas.removeEventListener(
+        "dblclick",
+        eventHandlers.onDoubleClick,
+        false
+      );
+      canvas.removeEventListener("touchend", eventHandlers.onTouchEnd, false);
 
-      window.removeEventListener("resize", onWindowResize, false);
+      window.removeEventListener("resize", eventHandlers.onWindowResize, false);
     };
   }, []);
 
@@ -78,7 +121,6 @@ const Scene: React.FC<IScene> = ({ plane, light, Character }) => {
   addBoxGridToScene();
   addSpidersToScene();
   addCoinToScene();
-
   if (Character) {
     addCharacterToScene(Character);
   }
