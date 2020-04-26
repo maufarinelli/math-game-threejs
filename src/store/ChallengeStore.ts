@@ -31,6 +31,7 @@ class ChallengeStore {
   }
 
   public setOperation() {
+    // If initial number >= 50, the operation will be substraction.
     if (this._initialNumber >= 50) {
       return (this._operation = operationsList[1]);
     }
@@ -40,10 +41,12 @@ class ChallengeStore {
 
   public setNumberToCalculate() {
     if (this._initialNumber >= 50) {
+      // If initial number >= 50, we know it is going to be substraction. So we need a number below initial number.
       this._numberToCalculate = Math.floor(
         Math.random() * (this._initialNumber - 1)
       );
     } else {
+      // Otherwise, it can be from 0 to 49
       this._numberToCalculate = Math.floor(Math.random() * 50);
     }
   }

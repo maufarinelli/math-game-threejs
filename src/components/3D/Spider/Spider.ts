@@ -1,4 +1,4 @@
-import * as OBJLoader from "three-obj-loader";
+import OBJLoader from "three-obj-loader";
 import * as THREE from "three";
 
 export interface IPosition {

@@ -1,4 +1,4 @@
-import { Intersection, Group } from "three";
+import { Intersection, Group, Object3D } from "three";
 import Character from "../components/3D/Character/Character";
 import ChallengeStore from "./ChallengeStore";
 import config from "../config";
@@ -8,32 +8,32 @@ import Spider from "../components/3D/Spider/Spider";
 import Coin from "../components/3D/Coin/Coin";
 
 class GameStore {
-  private selectedItem: Intersection | undefined;
+  public selectedItem: Intersection | undefined;
   private character: Character | undefined;
   private boxGrid: BoxGrid | undefined;
   private spiders: Spider[] = [];
-  private coin: Coin | undefined;
+  public coin: Coin | undefined;
 
   @observable
-  public _score: number;
+  private _score: number;
 
   @observable
-  public _level: number;
+  private _level: number;
 
   @observable
-  public _phase: number;
+  private _phase: number;
 
   @observable
-  public _showForm: boolean;
+  private _showForm: boolean;
 
   @observable
-  public _isLevelCompleted: boolean;
+  private _isLevelCompleted: boolean;
 
   @observable
-  public _isLevelNotCompletedSuccessfully: boolean;
+  private _isLevelNotCompletedSuccessfully: boolean;
 
   @observable
-  public _isGameCompleted: boolean;
+  private _isGameCompleted: boolean;
 
   public startingNewGame: boolean;
 
@@ -56,7 +56,7 @@ class GameStore {
     this._isGameCompleted = false;
   }
 
-  private highlightSelectedBox(intersection: Intersection, boxes: Group[]) {
+  private highlightSelectedBox(intersection: Intersection, boxes: Object3D[]) {
     boxes.forEach((child) => {
       if (!child.userData.isHole) {
         // @ts-ignore
@@ -128,7 +128,7 @@ class GameStore {
     );
   }
 
-  public selectBoxAction(intersection: Intersection, boxes: Group[]) {
+  public selectBoxAction(intersection: Intersection, boxes: Object3D[]) {
     this.highlightSelectedBox(intersection, boxes);
     this.setSelectedBox(intersection);
     if (
@@ -164,6 +164,48 @@ class GameStore {
     sessionStorage.setItem("game-level", String(this._level));
   }
 
+  public hasScoreToGoNextLevel() {
+    return (
+      (this._level === 1 && this._score >= 7) ||
+      (this._level === 2 && this._score >= 10)
+    );
+  }
+
+  public hasNoScoreToGoNextLevel() {
+    return (
+      (this._level === 1 && this._score < 7) ||
+      (this._level === 2 && this._score < 10)
+    );
+  }
+
+  public hasScoreToFinishGame() {
+    return this._level === 3 && this._score >= 13;
+  }
+
+  @action
+  public setNextPhase() {
+    this._phase++;
+    this._isLevelCompleted = false;
+    this._isLevelNotCompletedSuccessfully = false;
+  }
+
+  @action
+  public setNextLevel() {
+    this._isLevelCompleted = true;
+    this._isLevelNotCompletedSuccessfully = false;
+    this._score = 0;
+    this._phase = 1;
+    this._level++;
+  }
+
+  @action
+  public setRestartSameLevel() {
+    this._isLevelCompleted = true;
+    this._isLevelNotCompletedSuccessfully = true;
+    this._score = 0;
+    this._phase = 1;
+  }
+
   // Score
   @action
   public setScore(isRighAnswer: boolean) {
@@ -174,27 +216,12 @@ class GameStore {
     }
 
     if (this._phase < 5) {
-      this._phase++;
-      this._isLevelCompleted = false;
-      this._isLevelNotCompletedSuccessfully = false;
-    } else if (
-      (this._level === 1 && this._score >= 7) ||
-      (this._level === 2 && this._score >= 10)
-    ) {
-      this._isLevelCompleted = true;
-      this._isLevelNotCompletedSuccessfully = false;
-      this._score = 0;
-      this._phase = 1;
-      this._level++;
-    } else if (
-      (this._level === 1 && this._score < 7) ||
-      (this._level === 2 && this._score < 10)
-    ) {
-      this._isLevelCompleted = true;
-      this._isLevelNotCompletedSuccessfully = true;
-      this._score = 0;
-      this._phase = 1;
-    } else if (this._level === 3 && this._score >= 13) {
+      this.setNextPhase();
+    } else if (this.hasScoreToGoNextLevel()) {
+      this.setNextLevel();
+    } else if (this.hasNoScoreToGoNextLevel()) {
+      this.setRestartSameLevel();
+    } else if (this.hasScoreToFinishGame()) {
       this._isGameCompleted = true;
     }
 
