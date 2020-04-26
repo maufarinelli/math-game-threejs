@@ -7,13 +7,7 @@ import {
   notAllowedIntersection,
   intersectionWithHole,
 } from "../../mocks/intersection";
-import {
-  box1,
-  boxHole,
-  boxWithSpider1,
-  boxWithSpider2,
-  boxWithSpider3,
-} from "../../mocks/boxes";
+import { box1, boxHole } from "../../mocks/boxes";
 import Coin from "../components/3D/Coin/Coin";
 import BoxGrid from "../components/3D/Box/BoxGrid";
 import Spider from "../components/3D/Spider/Spider";
