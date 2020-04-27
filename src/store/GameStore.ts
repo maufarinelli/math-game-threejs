@@ -174,7 +174,8 @@ class GameStore {
   public hasNoScoreToGoNextLevel() {
     return (
       (this._level === 1 && this._score < 7) ||
-      (this._level === 2 && this._score < 10)
+      (this._level === 2 && this._score < 10) ||
+      (this._level === 3 && this._score < 13)
     );
   }
 
