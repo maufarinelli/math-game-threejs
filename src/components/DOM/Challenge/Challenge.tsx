@@ -8,13 +8,12 @@ const Challenge: React.FC = observer(() => {
 
   return (
     <div className="challenge">
-      <p>Le pirate a laissé le conseil suivant:</p>
-      <span className="challenge-number">{challengeStore.initialNumber}</span>
-      <span className="challenge-math-sign">{challengeStore.operation}</span>
-      <span className="challenge-number">
-        {challengeStore.numberToCalculate}
-      </span>
-      <br />
+      <div>
+        <p>Le pirate a laissé le conseil suivant:</p>
+        <span>{challengeStore.initialNumber}</span>
+        <span>{challengeStore.operation}</span>
+        <span>{challengeStore.numberToCalculate}</span>
+      </div>
       <p>Trouvez où le trésor est caché et creusez.</p>
     </div>
   );

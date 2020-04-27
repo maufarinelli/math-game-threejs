@@ -1,4 +1,4 @@
-import * as OBJLoader from "three-obj-loader";
+import OBJLoader from "three-obj-loader";
 import * as THREE from "three";
 import config from "../../../config";
 import { Intersection } from "three";
@@ -176,29 +176,11 @@ class Character {
     }
   }
 
-  public isMoveAllowed(currentSelectedItem: Intersection) {
-    const selectedPosX = currentSelectedItem.object.position.x;
-    const selectedPosZ = currentSelectedItem.object.position.z;
-    const characterPosX = this.character.position.x;
-    const characterPosZ = this.character.position.z;
-
-    return (
-      (selectedPosX - characterPosX === -config.BOX_CONFIG.SEPARATOR ||
-        selectedPosX - characterPosX === config.BOX_CONFIG.SEPARATOR ||
-        selectedPosX - characterPosX === 0) &&
-      (selectedPosZ - characterPosZ === -config.BOX_CONFIG.SEPARATOR ||
-        selectedPosZ - characterPosZ === config.BOX_CONFIG.SEPARATOR ||
-        selectedPosZ - characterPosZ === 0)
-    );
-  }
-
   public jumpAction(currentSelectedItem: Intersection) {
     const selectedPosX = currentSelectedItem.object.position.x;
     const selectedPosZ = currentSelectedItem.object.position.z;
     const characterPosX = this.character.position.x;
     const characterPosZ = this.character.position.z;
-
-    if (!this.isMoveAllowed(currentSelectedItem)) return;
 
     if (characterPosX > selectedPosX) {
       this.jumpLeft();

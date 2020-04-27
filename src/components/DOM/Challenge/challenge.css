@@ -8,8 +8,7 @@
   margin-right: 10px;
 }
 
-.challenge-number,
-.challenge-math-sign {
+.challenge span {
   font-size: 36px;
   font-weight: bold;
   margin-right: 5px;

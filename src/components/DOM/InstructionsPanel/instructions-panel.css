@@ -1,12 +1,13 @@
-.form-wrapper {
+.panel-wrapper {
   position: absolute;
+  top: 0;
   width: 100vw;
   height: 100vh;
   z-index: 10;
   color: white;
 }
 
-.form {
+.panel {
   min-width: 800px;
   position: absolute;
   top: 50%;
@@ -22,38 +23,42 @@
   right: calc(50% - 450px);
 }
 
-.form h1 {
+.panel h1 {
   font-size: 40px;
   margin: 0 0 10px;
 }
 
-.form h3 {
+.panel h3 {
   font-size: 32px;
   margin: 0;
 }
 
-.form p {
+.panel .story-title {
+  margin-top: 15px;
+}
+
+.panel p {
   font-size: 30px;
 }
 
-.form p.story {
+.panel p.story {
   font-size: 18px;
   margin: 0 0 10px 0;
 }
 
-.form p.last {
+.panel p.last {
   margin-bottom: 25px;
 }
 
-.form ul {
+.panel ul {
   margin: 0;
 }
 
-.form li {
+.panel li {
   margin-bottom: 10px;
 }
 
-.form button {
+.panel-wrapper button {
   background-color: rgb(62, 62, 62);
   color: white;
   font-size: 40px;
@@ -62,19 +67,14 @@
   border-radius: 15px;
 }
 
-.form-restart {
+.panel .panel-action-button {
+  margin-top: 15px;
+}
+
+.panel-restart {
   position: absolute;
   bottom: 5%;
   right: 3%;
-}
-
-.form-restart button {
-  background-color: rgb(62, 62, 62);
-  color: white;
-  font-size: 40px;
-  border: 0;
-  padding: 10px 20px;
-  border-radius: 15px;
 }
 
 .winner-images {
@@ -91,4 +91,10 @@
 
 .winner-fox {
   height: 450px;
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
 }

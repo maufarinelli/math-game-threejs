@@ -4,14 +4,6 @@
   background-color: rgb(26, 26, 26);
 }
 
-.btn-fullscreen {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  color: #fff;
-  background-color: rgb(62, 62, 62);
-}
-
 .header-content {
   display: flex;
   justify-content: space-between;

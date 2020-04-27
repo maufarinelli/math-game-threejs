@@ -5,10 +5,8 @@ import config from "../../../config";
 
 class BoxGrid {
   private boxGrid: Group;
-  private amount: number;
 
   constructor(amount: number, level: number, rightAnswer: number) {
-    this.amount = amount;
     this.boxGrid = this.createBoxGrid(amount, level, rightAnswer);
   }
 
@@ -34,6 +32,11 @@ class BoxGrid {
     return group;
   }
 
+  /**
+   * Update BoxGrid. This function is needed to repositioning all obstacles in the boxGrid
+   * @param level
+   * @param rightAnswer
+   */
   public updateBoxGrid(level: number, rightAnswer: number) {
     const obstaclesNumbersList = this.getObstaclesNumbers(level, rightAnswer);
     const holesNumbersList = obstaclesNumbersList.slice(12);
@@ -58,12 +61,18 @@ class BoxGrid {
     });
   }
 
-  public getBoxGrid() {
+  public getBoxGridGroup() {
     return this.boxGrid;
   }
 
+  /**
+   * Get obstacles numbers
+   * @param level
+   * @param rightAnswer
+   * return {number[]} an array containing ramdom obstacles' numbers
+   */
   public getObstaclesNumbers(level: number, rightAnswer: number) {
-    const obstaclesQty = level * 12;
+    const obstaclesQty = level * 12; // 12 obstacles per level
     const obstacleNumbersList: number[] = [];
 
     while (obstacleNumbersList.length < obstaclesQty) {
@@ -92,12 +101,13 @@ class BoxGrid {
         ? columnPosition * 10 + rowPosition
         : rowPosition;
 
-    const holesNumbersList = obstaclesNumbersList.slice(12);
+    // The 12 firsts numbers become Spiders
     const spiderNumbersList = obstaclesNumbersList.slice(0, 12);
+    const holesNumbersList = obstaclesNumbersList.slice(12);
 
+    // Adding text to each Box
     const text = Text(String(boxNumber));
     box.add(text);
-
     box.userData.boxNumber = boxNumber;
 
     if (holesNumbersList.includes(boxNumber)) {

@@ -1,0 +1,7 @@
+.btn-fullscreen {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: #fff;
+  background-color: rgb(62, 62, 62);
+}
