@@ -301,7 +301,6 @@ class GameStore {
 
   @action
   public handleRestartClick() {
-    this._showForm = false;
     this._isLevelCompleted = false;
     this._isLevelNotCompletedSuccessfully = false;
     this._isGameCompleted = false;
@@ -309,10 +308,7 @@ class GameStore {
     this._score = 0;
     this._level = 1;
     this._phase = 1;
-    this.challengeStore.reinitialize();
-    this.character?.changeCharacterPosition({ x: 0, y: 0, z: 0 });
-    this.boxGrid?.updateBoxGrid(this.level, this.challengeStore.rightAnswer);
-    this.updateSpidersPosition();
+    this.handleNextClick();
 
     sessionStorage.setItem("game-score", String(0));
     sessionStorage.setItem("game-phase", String(1));

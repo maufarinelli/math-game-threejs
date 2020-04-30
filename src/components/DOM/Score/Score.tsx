@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import StoreContext from "../../../store/context";
 import { observer } from "mobx-react";
 import "./score.css";
+import { FormattedMessage } from "react-intl";
 
 interface ICoins {
   score: number;
@@ -24,12 +25,16 @@ const Score: React.FC = observer(() => {
   return (
     <div className="score">
       <p>
-        Niveau: {level}x{phase}
+        <FormattedMessage id="SCORE_LEVEL_LABEL" defaultMessage="Niveau: " />
+        {level}x{phase}
       </p>
       <div>
         <Coins score={score} />
       </div>
-      <span>Score: {score}</span>
+      <span>
+        <FormattedMessage id="SCORE_LABEL" defaultMessage="Score: " />
+        {score}
+      </span>
     </div>
   );
 });
