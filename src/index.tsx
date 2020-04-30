@@ -1,14 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { IntlProvider } from "react-intl";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import StoreContext from "./store/context";
 import store from "./store/store";
+import userLocale, { translations } from "./locale/userLocale";
+const messages = translations[userLocale];
 
 ReactDOM.render(
   <StoreContext.Provider value={store}>
-    <App />
+    <IntlProvider locale={userLocale} messages={messages}>
+      <App />
+    </IntlProvider>
   </StoreContext.Provider>,
   document.getElementById("root")
 );

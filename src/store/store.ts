@@ -6,7 +6,7 @@ const gameStore = new GameStore(challengeStore);
 
 const store: any = {
   challengeStore,
-  gameStore
+  gameStore,
 };
 
 export default store;

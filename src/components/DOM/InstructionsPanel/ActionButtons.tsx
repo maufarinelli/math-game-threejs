@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import StoreContext from "../../../store/context";
+import { FormattedMessage } from "react-intl";
 
 interface IActionButtonsProps {
   handleNextClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -11,12 +12,27 @@ const ActionButtons: React.FC<IActionButtonsProps> = ({ handleNextClick }) => {
   const getLabel = () => {
     if (gameStore.isLevelCompleted) {
       if (gameStore.isLevelNotCompletedSuccessfully) {
-        return "Réessayer le même niveau >>";
+        return (
+          <FormattedMessage
+            id="ACTION_BUTTON_RETRY_SAME_LEVEL"
+            defaultMessage="Réessayer le même niveau >>"
+          />
+        );
       }
-      return "Niveau suivant >>";
+      return (
+        <FormattedMessage
+          id="ACTION_BUTTON_NEXT_LEVEL"
+          defaultMessage="Niveau suivant >>"
+        />
+      );
     } else {
       if (!gameStore.isGameCompleted) {
-        return "Phase suivante >>";
+        return (
+          <FormattedMessage
+            id="ACTION_BUTTON_NEXT_PHASE"
+            defaultMessage="Phase suivante >>"
+          />
+        );
       }
     }
   };
