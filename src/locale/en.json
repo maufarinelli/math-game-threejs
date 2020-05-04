@@ -19,7 +19,7 @@
   "STARTING_GAME_TITLE": "The Mathematician Pirate",
   "STARTING_GAME_TEXT_1": "A pirate had hidden all the coins from his treasury on different islands. Fox found maps with mysterious hints, such as adding and subtracting numbers.",
   "STARTING_GAME_TEXT_2": "Help Fox solve these mysteries and find this hidden treasure.",
-  "STARTING_GAME_SUBTITLE": "how to play: ",
+  "STARTING_GAME_SUBTITLE": "How to play: ",
   "STARTING_GAME_HOW_TO_PLAY_TEXT_1": "You must <b>Click</b> on <b>each square</b> adjacent to its position, in order to move the character.",
   "STARTING_GAME_HOW_TO_PLAY_TEXT_2": "As soon as you reach <b>the square where the result</b> of your calculation is located <b>double-click</b> (<i>or long press for tablet users</i>) to dig and find the hidden coin.",
   "ACTION_BUTTON_START": "Start",
