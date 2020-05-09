@@ -1,1 +1,1 @@
-(c) Copyright 2020 Mauricio Farinelli, all rights reserved.
+&copy; Copyright 2020 Mauricio Farinelli. All rights reserved.

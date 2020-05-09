@@ -3,6 +3,7 @@ import StoreContext from "../../../store/context";
 import ActionButtons from "./ActionButtons";
 import { FormattedMessage } from "react-intl";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import Copyright from "./Copyright";
 
 interface IGameDescriptionPanelProps {
   handleRestartClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -116,6 +117,7 @@ const GameDescriptionPanel: React.FC<IGameDescriptionPanelProps> = ({
         </button>
       </div>
       <div className="overlay"></div>
+      <Copyright />
     </div>
   );
 };

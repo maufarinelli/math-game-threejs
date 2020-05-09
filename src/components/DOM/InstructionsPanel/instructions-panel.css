@@ -98,3 +98,11 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
 }
+
+.copyright {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+  color: #fff;
+}

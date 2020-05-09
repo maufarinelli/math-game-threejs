@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import Copyright from "./Copyright";
 
 interface IStartingGamePanelProps {
   handleStartClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -66,6 +67,7 @@ const StartingGamePanel: React.FC<IStartingGamePanelProps> = ({
       </button>
     </div>
     <div className="overlay"></div>
+    <Copyright />
   </div>
 );
 
